@@ -1,0 +1,20 @@
+version: '3'
+services:
+  database:
+    image: 'postgres:13'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: '${DB_DATABASE}'
+      POSTGRES_USER: '${DB_USERNAME}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
+      retries: 3
+      timeout: 5s
+
+volumes:
+  postgres:
+    driver: local
