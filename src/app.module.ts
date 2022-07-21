@@ -1,10 +1,15 @@
 import type { ClientOpts } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { CacheModule, Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { SentryModule } from '@ntegral/nestjs-sentry';
+import { TestModule } from './test/test.module';
 
 @Module({
   imports: [
+    // Core modules
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -13,8 +18,35 @@ import { ConfigModule } from '@nestjs/config';
       host: process.env.REDIS_HOST,
       port: process.env.REDIS_PORT,
     }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      debug: process.env.NODE_ENV !== 'production',
+      playground: process.env.NODE_ENV !== 'production',
+      autoSchemaFile: true,
+      cors: true,
+      autoTransformHttpErrors: true,
+      subscriptions: {
+        'graphql-ws': { path: '/graphql' },
+        'subscriptions-transport-ws': true,
+      },
+      buildSchemaOptions: {
+        dateScalarMode: 'timestamp',
+      },
+    }),
+    SentryModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (cfg: ConfigService) => ({
+        dsn: cfg.get('SENTRY_DSN'),
+        debug: false,
+        environment:
+          process.env.NODE_ENV === 'production' ? 'production' : 'dev',
+        release: null,
+        close: { enabled: true },
+      }),
+      inject: [ConfigService],
+    }),
+    // NetDiver modules
+    TestModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
