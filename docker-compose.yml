@@ -5,13 +5,13 @@ services:
     ports:
       - '5432:5432'
     environment:
-      POSTGRES_DB: '${DB_DATABASE}'
-      POSTGRES_USER: '${DB_USERNAME}'
-      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+      POSTGRES_DB: '${DATABASE_NAME}'
+      POSTGRES_USER: '${DATABASE_USERNAME}'
+      POSTGRES_PASSWORD: '${DATABASE_PASSWORD}'
     volumes:
       - 'postgres:/var/lib/postgresql/data'
     healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
+      test: [ "CMD", "pg_isready", "-q", "-d", "${DATABASE_NAME}", "-U", "${DATABASE_USERNAME}" ]
       retries: 3
       timeout: 5s
 
