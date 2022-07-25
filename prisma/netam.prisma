@@ -1,0 +1,30 @@
+datasource db {
+  url      = env("DATABASE_URL")
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Sections {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  name        String   @unique
+  description String?
+  network     String   @unique
+  schedule    String   @db.VarChar(255)
+  scantype    String   @default("ping") @db.VarChar(255)
+  Usages      Usages[]
+}
+
+model Usages {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  ip_used     String   @db.VarChar(255)
+  section     Sections @relation(fields: sectionId, references: id)
+  sectionId   Int
+  fqdn        String   @db.VarChar(255)
+  description String   @db.Text
+  identifier  String   @unique @db.VarChar(255)
+}

@@ -1,0 +1,14 @@
+datasource db {
+  url      = env("DATABASE_URL")
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Mac_Addresses {
+  id     Int     @id @default(autoincrement())
+  mac    String  @unique
+  vendor String?
+}
