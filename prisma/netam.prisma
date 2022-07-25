@@ -13,7 +13,7 @@ model Sections {
   name        String   @unique
   description String?
   network     String   @unique
-  schedule    String   @db.VarChar(255)
+  schedule    String?  @db.VarChar(255)
   scantype    String   @default("ping") @db.VarChar(255)
   Usages      Usages[]
 }
@@ -25,6 +25,14 @@ model Usages {
   section     Sections @relation(fields: sectionId, references: id)
   sectionId   Int
   fqdn        String   @db.VarChar(255)
-  description String   @db.Text
+  description String?  @db.Text
   identifier  String   @unique @db.VarChar(255)
+  status      States   @default(ACTIVE)
+}
+
+enum States {
+  INACTIVE
+  ACTIVE
+  LOCKED
+  DHCP
 }
