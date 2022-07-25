@@ -7,7 +7,7 @@ on:
 jobs:
   njsscan:
     runs-on: ubuntu-latest
-    name: njsscan check
+    name: NodeJS Scan
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -17,23 +17,12 @@ jobs:
         with:
           args: '.'
 
-  semgrep:
-    name: Scan
-    runs-on: ubuntu-20.04
-    container:
-      image: returntocorp/semgrep
-    steps:
-      - uses: actions/checkout@v3
-      - run: semgrep ci
-
   eslint:
+    name: ESlint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: mrdivyansh/eslint-action@v1.0.7
-        # GITHUB_TOKEN in forked repositories is read-only
-        # https://help.github.com/en/actions/reference/events-that-trigger-workflows#pull-request-event-pull_request
-        if: ${{ github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository }}
-        with:
-          repo-token: ${{secrets.GITHUB_TOKEN}}
-          eslint-rc: .eslintrc.js
+      - name: Install modules
+        run: yarn
+      - name: Run ESLint
+        run: eslint "{src,apps,libs,test}/**/*.ts"
