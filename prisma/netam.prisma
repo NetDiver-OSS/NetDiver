@@ -15,7 +15,9 @@ model Sections {
   network     String   @unique
   schedule    String?  @db.VarChar(255)
   scantype    String   @default("ping") @db.VarChar(255)
-  Usages      Usages[]
+  usages      Usages[]
+  vlan        Vlans    @relation(fields: vlan_id, references: id)
+  vlan_id     Int
 }
 
 model Usages {
@@ -28,6 +30,8 @@ model Usages {
   description String?  @db.Text
   identifier  String   @unique @db.VarChar(255)
   status      States   @default(ACTIVE)
+  device      Devices  @relation(fields: device_id, references: id)
+  device_id   Int
 }
 
 enum States {
@@ -35,4 +39,50 @@ enum States {
   ACTIVE
   LOCKED
   DHCP
+}
+
+model Vlans {
+  id          Int        @id @default(autoincrement())
+  createdAt   DateTime   @default(now())
+  name        String     @db.VarChar(255)
+  description String?    @db.Text
+  Sections    Sections[]
+}
+
+model Devices {
+  id              Int               @id @default(autoincrement())
+  createdAt       DateTime          @default(now())
+  rack_height     Int?
+  depth_type      Int               @default(1)
+  device_type     DevicesTypes?     @relation(fields: device_type_id, references: id)
+  device_type_id  Int?
+  Usages          Usages[]
+  RackOccupations RackOccupations[]
+}
+
+model DevicesTypes {
+  id        Int       @id @default(autoincrement())
+  createdAd DateTime  @default(now())
+  name      String    @unique
+  color     String    @default("FFFFFF")
+  Devices   Devices[]
+}
+
+model RackSpaces {
+  id              Int               @id @default(autoincrement())
+  createdAd       DateTime          @default(now())
+  name            String
+  unit_height     Int
+  location        String
+  RackOccupations RackOccupations[]
+}
+
+model RackOccupations {
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime   @default(now())
+  rack_anchor  Int
+  rackspace    RackSpaces @relation(fields: rackspace_id, references: id)
+  rackspace_id Int
+  device       Devices    @relation(fields: device_id, references: id)
+  device_id    Int
 }
