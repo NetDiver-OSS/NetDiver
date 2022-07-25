@@ -4,11 +4,11 @@ import {
   Injectable,
   OnModuleInit,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from './generated/netam';
 
 @Global()
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit {
+export class NetamService extends PrismaClient implements OnModuleInit {
   constructor() {
     super({
       log: ['warn', 'error'],
