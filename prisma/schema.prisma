@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/database/generated/netam"
 }
 
 datasource db {
@@ -8,6 +7,14 @@ datasource db {
   provider = "postgresql"
 }
 
+// NetTools Tables
+model Mac_Addresses {
+  id     Int     @id @default(autoincrement())
+  mac    String  @unique
+  vendor String?
+}
+
+// NetAM Tables
 model Sections {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
@@ -19,6 +26,8 @@ model Sections {
   usages      Usages[]
   vlan        Vlans    @relation(fields: vlan_id, references: id)
   vlan_id     Int
+
+  @@index([name])
 }
 
 model Usages {
@@ -33,6 +42,10 @@ model Usages {
   status      States   @default(ACTIVE)
   device      Devices  @relation(fields: device_id, references: id)
   device_id   Int
+
+  @@index([ip_used])
+  @@index([fqdn])
+  @@index([status])
 }
 
 enum States {

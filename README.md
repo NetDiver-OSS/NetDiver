@@ -34,8 +34,7 @@ $ npm install
 
 ## Generate prisma schema
 ```bash
-pnpm prisma generate --schema=./prisma/netam.prisma
-pnpm prisma generate --schema=./prisma/nettools.prisma
+pnpm prisma generate --schema=./prisma/schema.prisma
 ```
 
 ## Running the app
