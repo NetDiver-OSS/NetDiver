@@ -5,7 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { SentryModule } from '@ntegral/nestjs-sentry';
-import { TestModule } from './test/test.module';
+import { VlanModule } from './vlan/vlan.module';
 
 @Module({
   imports: [
@@ -46,7 +46,7 @@ import { TestModule } from './test/test.module';
       inject: [ConfigService],
     }),
     // NetDiver modules
-    TestModule,
+    VlanModule,
   ],
 })
 export class AppModule {}
