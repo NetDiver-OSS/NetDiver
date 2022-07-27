@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { TestResolver } from './test.resolver';
 import { DatabaseModule } from '../database/database.module';
+import { VlanResolver } from './vlan.resolver';
 
 @Module({
   imports: [DatabaseModule],
-  providers: [TestResolver],
+  providers: [VlanResolver],
 })
-export class TestModule {}
+export class VlanModule {}
