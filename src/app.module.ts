@@ -6,6 +6,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { SentryModule } from '@ntegral/nestjs-sentry';
 import { VlanModule } from './vlan/vlan.module';
+import { NettoolsModule } from '@netdiver/nettools';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { VlanModule } from './vlan/vlan.module';
     }),
     // NetDiver modules
     VlanModule,
+    NettoolsModule,
   ],
 })
 export class AppModule {}
