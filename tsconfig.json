@@ -16,6 +16,20 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@netdiver/netam": [
+        "libs/netam/src"
+      ],
+      "@netdiver/netam/*": [
+        "libs/netam/src/*"
+      ],
+      "@netdiver/nettools": [
+        "libs/nettools/src"
+      ],
+      "@netdiver/nettools/*": [
+        "libs/nettools/src/*"
+      ]
+    }
   }
 }
