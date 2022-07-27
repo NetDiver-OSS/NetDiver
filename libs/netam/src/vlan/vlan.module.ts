@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from '../database/database.module';
 import { VlanResolver } from './vlan.resolver';
+import { DatabaseModule } from '../../../../dist/database/database.module';
 
 @Module({
   imports: [DatabaseModule],

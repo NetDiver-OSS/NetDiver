@@ -1,6 +1,13 @@
-import { Args, Int, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Int,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { Vlan } from './vlan.model';
-import { PrismaService } from '../database/prisma.service';
+import { PrismaService } from '../../../../dist/database/prisma.service';
 
 @Resolver(() => Vlan)
 export class VlanResolver {
@@ -14,5 +21,11 @@ export class VlanResolver {
   @Query(() => Vlan)
   async getVlan(@Args('id', { type: () => Int }) id: number): Promise<Vlan> {
     return this.prismaService.vlans.findFirst({ where: { id: id } });
+  }
+
+  @ResolveField()
+  async sections(@Parent() vlan: Vlan) {
+    const { id } = vlan;
+    return this.prismaService.sections.findMany({ where: { vlanId: id } });
   }
 }
