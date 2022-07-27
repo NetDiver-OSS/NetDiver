@@ -1,9 +1,19 @@
 {
-  "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
   "rootDir": ".",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "@netdiver/netam/(.*)": "<rootDir>/../libs/netam/src/$1",
+    "@netdiver/netam": "<rootDir>/../libs/netam/src",
+    "@netdiver/nettools/(.*)": "<rootDir>/../libs/nettools/src/$1",
+    "@netdiver/nettools": "<rootDir>/../libs/nettools/src"
   }
 }

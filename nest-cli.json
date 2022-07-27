@@ -1,5 +1,28 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "src",
+  "projects": {
+    "netam": {
+      "type": "library",
+      "root": "libs/netam",
+      "entryFile": "index",
+      "sourceRoot": "libs/netam/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/netam/tsconfig.lib.json"
+      }
+    },
+    "nettools": {
+      "type": "library",
+      "root": "libs/nettools",
+      "entryFile": "index",
+      "sourceRoot": "libs/nettools/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/nettools/tsconfig.lib.json"
+      }
+    }
+  },
+  "compilerOptions": {
+    "webpack": true
+  }
 }
