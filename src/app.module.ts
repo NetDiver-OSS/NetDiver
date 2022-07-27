@@ -7,6 +7,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { SentryModule } from '@ntegral/nestjs-sentry';
 import { VlanModule } from './vlan/vlan.module';
 import { NettoolsModule } from '@netdiver/nettools';
+import { NetamModule } from '@netdiver/netam';
 
 @Module({
   imports: [
@@ -47,8 +48,9 @@ import { NettoolsModule } from '@netdiver/nettools';
       inject: [ConfigService],
     }),
     // NetDiver modules
-    VlanModule,
+    NetamModule,
     NettoolsModule,
+    VlanModule,
   ],
 })
 export class AppModule {}
