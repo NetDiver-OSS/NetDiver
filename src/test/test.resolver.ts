@@ -1,10 +1,10 @@
 import { Query, Resolver } from '@nestjs/graphql';
-import { NetamService } from '../database/netam.service';
+import { PrismaService } from '../database/prisma.service';
 import { TestDTO } from './test.model';
 
 @Resolver(() => TestDTO)
 export class TestResolver {
-  constructor(private prisma: NetamService) {}
+  constructor(private prisma: PrismaService) {}
 
   @Query(() => [TestDTO])
   async getTest(): Promise<TestDTO[]> {
