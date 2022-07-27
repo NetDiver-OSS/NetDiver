@@ -8,44 +8,48 @@ datasource db {
 }
 
 // NetTools Tables
-model Mac_Addresses {
+model MacAddresses {
   id     Int     @id @default(autoincrement())
   mac    String  @unique
   vendor String?
+
+  @@map(name: "nettools_macaddresses")
 }
 
 // NetAM Tables
 model Sections {
   id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
+  createdAt   DateTime @default(now()) @map("created_at")
   name        String   @unique
   description String?
   network     String   @unique
   schedule    String?  @db.VarChar(255)
   scantype    String   @default("ping") @db.VarChar(255)
   usages      Usages[]
-  vlan        Vlans    @relation(fields: vlan_id, references: id)
-  vlan_id     Int
+  vlan        Vlans    @relation(fields: vlanId, references: id)
+  vlanId      Int      @map("vlan_id")
 
   @@index([name])
+  @@map(name: "netam_sections")
 }
 
 model Usages {
   id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  ip_used     String   @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at")
+  ipUsed      String   @map("ip_used") @db.VarChar(255)
   section     Sections @relation(fields: sectionId, references: id)
-  sectionId   Int
+  sectionId   Int      @map("section_id")
   fqdn        String   @db.VarChar(255)
   description String?  @db.Text
   identifier  String   @unique @db.VarChar(255)
   status      States   @default(ACTIVE)
-  device      Devices  @relation(fields: device_id, references: id)
-  device_id   Int
+  device      Devices  @relation(fields: deviceId, references: id)
+  deviceId    Int      @map("device_id")
 
-  @@index([ip_used])
+  @@index([ipUsed])
   @@index([fqdn])
   @@index([status])
+  @@map(name: "netam_usages")
 }
 
 enum States {
@@ -57,46 +61,56 @@ enum States {
 
 model Vlans {
   id          Int        @id @default(autoincrement())
-  createdAt   DateTime   @default(now())
+  createdAt   DateTime   @default(now()) @map("created_at")
   name        String     @db.VarChar(255)
   description String?    @db.Text
-  Sections    Sections[]
+  sections    Sections[]
+
+  @@map(name: "netam_vlans")
 }
 
 model Devices {
   id              Int               @id @default(autoincrement())
-  createdAt       DateTime          @default(now())
-  rack_height     Int?
-  depth_type      Int               @default(1)
-  device_type     DevicesTypes?     @relation(fields: device_type_id, references: id)
-  device_type_id  Int?
-  Usages          Usages[]
-  RackOccupations RackOccupations[]
+  createdAt       DateTime          @default(now()) @map("created_at")
+  rackHeight      Int?              @map("rack_height")
+  depthType       Int               @default(1) @map("depth_type")
+  deviceType      DevicesTypes?     @relation(fields: deviceTypeId, references: id)
+  deviceTypeId    Int?              @map("device_type_id")
+  usages          Usages[]
+  rackOccupations RackOccupations[]
+
+  @@map(name: "netam_devices")
 }
 
 model DevicesTypes {
   id        Int       @id @default(autoincrement())
-  createdAd DateTime  @default(now())
+  createdAt DateTime  @default(now()) @map("created_at")
   name      String    @unique
   color     String    @default("FFFFFF")
-  Devices   Devices[]
+  devices   Devices[]
+
+  @@map(name: "netam_devicestypes")
 }
 
 model RackSpaces {
   id              Int               @id @default(autoincrement())
-  createdAd       DateTime          @default(now())
+  createdAt       DateTime          @default(now()) @map("created_at")
   name            String
-  unit_height     Int
+  unitHeight      Int               @map("unit_height")
   location        String
-  RackOccupations RackOccupations[]
+  rackOccupations RackOccupations[]
+
+  @@map(name: "netam_rackspaces")
 }
 
 model RackOccupations {
-  id           Int        @id @default(autoincrement())
-  createdAt    DateTime   @default(now())
-  rack_anchor  Int
-  rackspace    RackSpaces @relation(fields: rackspace_id, references: id)
-  rackspace_id Int
-  device       Devices    @relation(fields: device_id, references: id)
-  device_id    Int
+  id          Int        @id @default(autoincrement())
+  createdAt   DateTime   @default(now()) @map("created_at")
+  rackAnchor  Int        @map("rack_anchor")
+  rackspace   RackSpaces @relation(fields: rackspaceId, references: id)
+  rackspaceId Int        @map("rackspace_id")
+  device      Devices    @relation(fields: deviceId, references: id)
+  deviceId    Int        @map("device_id")
+
+  @@map(name: "netam_rackoccupations")
 }
