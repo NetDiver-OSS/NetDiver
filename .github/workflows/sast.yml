@@ -1,7 +1,6 @@
 ---
 name: sast
 on:
-  push:
   pull_request:
 
 jobs:
