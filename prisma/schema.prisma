@@ -43,8 +43,8 @@ model Usages {
   description String?  @db.Text
   identifier  String   @unique @db.VarChar(255)
   status      States   @default(ACTIVE)
-  device      Devices  @relation(fields: deviceId, references: id)
-  deviceId    Int      @map("device_id")
+  device      Devices?  @relation(fields: deviceId, references: id)
+  deviceId    Int?      @map("device_id")
 
   @@index([ipUsed])
   @@index([fqdn])
@@ -73,6 +73,7 @@ model Vlans {
 model Devices {
   id              Int               @id @default(autoincrement())
   createdAt       DateTime          @default(now()) @map("created_at")
+  name            String            @db.VarChar(255)
   rackHeight      Int?              @map("rack_height")
   depthType       Int               @default(1) @map("depth_type")
   deviceType      DevicesTypes?     @relation(fields: deviceTypeId, references: id)
