@@ -64,6 +64,7 @@ model Vlans {
   createdAt   DateTime   @default(now()) @map("created_at")
   name        String     @db.VarChar(255)
   description String?    @db.Text
+  vlanId      Int          @map("vlan_id")
   sections    Sections[]
 
   @@map(name: "netam_vlans")
