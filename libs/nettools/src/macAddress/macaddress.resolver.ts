@@ -11,8 +11,12 @@ export class MacAddressResolver {
     return this.prismaService.macAddresses.findMany();
   }
 
-  @Query(() => MacAddress)
-  async getMacAddress(@Args('mac') mac: string): Promise<MacAddress> {
-    return this.prismaService.macAddresses.findFirst({ where: { mac: mac } });
+  @Query(() => [MacAddress])
+  async getMacAddress(
+    @Args('macprefix') macprefix: string,
+  ): Promise<MacAddress[]> {
+    return this.prismaService.macAddresses.findMany({
+      where: { mac: macprefix },
+    });
   }
 }
