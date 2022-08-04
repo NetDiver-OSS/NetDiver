@@ -14,6 +14,7 @@ model MacAddresses {
   mac    String  @unique
   vendor String?
 
+  @@index([mac,vendor])
   @@map(name: "nettools_macaddresses")
 }
 
