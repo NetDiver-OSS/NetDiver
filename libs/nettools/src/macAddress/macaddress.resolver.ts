@@ -7,8 +7,17 @@ export class MacAddressResolver {
   constructor(private readonly prismaService: PrismaService) {}
 
   @Query(() => [MacAddress])
-  async getMacAddresses(): Promise<MacAddress[]> {
-    return this.prismaService.macAddresses.findMany();
+  async getMacAddressesAndVendors(): Promise<MacAddress[]> {
+    return this.prismaService.macAddresses.findMany({
+      orderBy: [
+        {
+          mac: 'asc',
+        },
+        {
+          vendor: 'asc',
+        },
+      ],
+    });
   }
 
   @Query(() => [MacAddress])
@@ -16,7 +25,38 @@ export class MacAddressResolver {
     @Args('macprefix') macprefix: string,
   ): Promise<MacAddress[]> {
     return this.prismaService.macAddresses.findMany({
-      where: { mac: macprefix },
+      orderBy: [
+        {
+          mac: 'asc',
+        },
+        {
+          vendor: 'asc',
+        },
+      ],
+      where: {
+        mac: {
+          search: macprefix,
+        },
+      },
+    });
+  }
+
+  @Query(() => [MacAddress])
+  async getVendor(@Args('vendor') vendor: string): Promise<MacAddress[]> {
+    return this.prismaService.macAddresses.findMany({
+      orderBy: [
+        {
+          mac: 'asc',
+        },
+        {
+          vendor: 'asc',
+        },
+      ],
+      where: {
+        vendor: {
+          search: vendor,
+        },
+      },
     });
   }
 }
