@@ -32,6 +32,7 @@ specifiers:
   graphql-subscriptions: ^2.0.0
   graphql-ws: ^5.9.1
   jest: 28.0.3
+  netmask: ^2.0.2
   prettier: ^2.3.2
   prisma: ^4.1.0
   redis: ^3.1.2
@@ -66,6 +67,7 @@ dependencies:
   graphql: 16.5.0
   graphql-subscriptions: 2.0.0_graphql@16.5.0
   graphql-ws: 5.9.1_graphql@16.5.0
+  netmask: 2.0.2
   prisma: 4.1.0
   redis: 3.1.2
   reflect-metadata: 0.1.13
@@ -4754,6 +4756,11 @@ packages:
   /neo-async/2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
+
+  /netmask/2.0.2:
+    resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
+    engines: {node: '>= 0.4.0'}
+    dev: false
 
   /no-case/3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
