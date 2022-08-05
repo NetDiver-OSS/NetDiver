@@ -23,4 +23,11 @@ export class NetCalculatorResolver {
   async getNetRangeSize(@Args('network') network: string): Promise<number> {
     return new Netmask(network).size;
   }
+
+  @Query(() => NetCalculator)
+  async getNetRangeNext(
+    @Args('network') network: string,
+  ): Promise<NetCalculator> {
+    return new Netmask(network).next();
+  }
 }
