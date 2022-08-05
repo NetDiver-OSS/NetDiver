@@ -14,6 +14,9 @@ export class NetCalculator {
   @Field()
   hostmask: string;
 
+  @Field()
+  broadcast: string;
+
   @Field(() => Int)
   size: number;
 
