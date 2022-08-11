@@ -1,28 +1,31 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class NetCalculator {
-  @Field()
-  base: string;
+  @Field({ nullable: true })
+  network: string | null;
 
-  @Field()
-  mask: string;
+  @Field({ nullable: true })
+  broadcast: string | null;
 
-  @Field(() => Int)
-  bitmask: number;
+  @Field({ nullable: true })
+  range: string | null;
 
-  @Field()
-  hostmask: string;
+  @Field({ nullable: true })
+  bitmask: string | null;
 
-  @Field()
-  broadcast: string;
+  @Field({ nullable: true })
+  mask: string | null;
 
-  @Field(() => Int)
-  size: number;
+  @Field({ nullable: true })
+  size: string | null;
 
-  @Field()
-  first: string;
+  @Field({ nullable: true })
+  first: string | null;
 
-  @Field()
-  last: string;
+  @Field({ nullable: true })
+  last: string | null;
+
+  @Field(() => [String], { nullable: true })
+  splited: string[];
 }
