@@ -35,7 +35,7 @@ export class MacAddressResolver {
       ],
       where: {
         mac: {
-          search: macprefix,
+          contains: macprefix,
         },
       },
     });
@@ -54,7 +54,7 @@ export class MacAddressResolver {
       ],
       where: {
         vendor: {
-          search: vendor,
+          contains: vendor,
         },
       },
     });
