@@ -1,6 +1,6 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { PrismaService } from '../../../../dist/database/prisma.service';
 import { MacAddress } from './macaddress.model';
+import { PrismaService } from "../../../../src/database/prisma.service";
 
 @Resolver(() => MacAddress)
 export class MacAddressResolver {

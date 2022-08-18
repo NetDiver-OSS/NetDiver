@@ -1,6 +1,6 @@
 import { Query, Resolver } from '@nestjs/graphql';
-import { PrismaService } from '../../../../dist/database/prisma.service';
 import { Section } from '@netdiver/netam/section/section.model';
+import { PrismaService } from "../../../../src/database/prisma.service";
 
 @Resolver(() => Section)
 export class SectionResolver {
