@@ -1,38 +1,22 @@
 {
   "name": "netdiver-frontend",
-  "version": "0.1.0",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/core": "^4.2.7",
-    "@mantine/dates": "^4.2.7",
-    "@mantine/dropzone": "^4.2.7",
-    "@mantine/form": "^4.2.7",
-    "@mantine/hooks": "^4.2.7",
-    "@mantine/modals": "^4.2.7",
-    "@mantine/next": "^4.2.7",
-    "@mantine/notifications": "^4.2.7",
-    "@mantine/rte": "^4.2.7",
-    "@mantine/spotlight": "^4.2.7",
-    "dayjs": "^1.11.2",
-    "next": "12.1.6",
-    "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "17.0.36",
-    "@types/react": "18.0.9",
-    "@types/react-dom": "18.0.5",
-    "eslint": "8.16.0",
-    "eslint-config-next": "12.1.6",
-    "typescript": "4.7.2"
-  },
-  "engines": {
-    "node": ">=16.15.0"
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.0.1",
+    "typescript": "^4.6.4",
+    "vite": "^3.0.7"
   }
 }
