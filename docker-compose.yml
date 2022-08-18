@@ -1,25 +1,44 @@
-version: '3'
+version: '3.9'
+
 services:
   database:
-    image: 'postgres:13'
-    ports:
-      - '5432:5432'
+    image: 'postgres:14-alpine'
     environment:
       POSTGRES_DB: '${DATABASE_NAME}'
       POSTGRES_USER: '${DATABASE_USERNAME}'
       POSTGRES_PASSWORD: '${DATABASE_PASSWORD}'
+    ports:
+      - '5432:5432'
     volumes:
       - 'postgres:/var/lib/postgresql/data'
     healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "${DATABASE_NAME}", "-U", "${DATABASE_USERNAME}" ]
+      test: [ 'CMD', 'pg_isready', '-q', '-d', '${DATABASE_NAME}', '-U', '${DATABASE_USERNAME}' ]
       retries: 3
       timeout: 5s
 
   redis:
-    image: redis:7-alpine
+    image: 'redis:7-alpine'
     ports:
       - '6379:6379'
+    volumes:
+      - 'redis:/data'
+
+  keycloak:
+    image: 'quay.io/keycloak/keycloak:19.0'
+    command:
+      - 'start-dev'
+    environment:
+      KEYCLOAK_ADMIN: 'admin'
+      KEYCLOAK_ADMIN_PASSWORD: 'admin'
+    volumes:
+      - 'keycloak:/opt/jboss/keycloak'
+    ports:
+      - '8080:8080'
 
 volumes:
   postgres:
+    driver: local
+  redis:
+    driver: local
+  keycloak:
     driver: local
