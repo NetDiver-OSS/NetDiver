@@ -7,7 +7,7 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { Vlan } from './vlan.model';
-import { PrismaService } from '../../../../dist/database/prisma.service';
+import { PrismaService } from "../../../../src/database/prisma.service";
 
 @Resolver(() => Vlan)
 export class VlanResolver {
