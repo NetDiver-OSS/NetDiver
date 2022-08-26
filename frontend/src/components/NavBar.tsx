@@ -38,9 +38,9 @@ const mockdata = [
     label: 'NetTools',
     icon: IconAdjustments,
     links: [
-      { label: 'Enable 2FA', link: '/' },
-      { label: 'Change password', link: '/' },
-      { label: 'Recovery codes', link: '/' }
+      { label: 'Mac Address Finder', link: '/nettools/macaddress' },
+      { label: 'IP Range Calculator', link: '/nettools/ipcalculator' },
+      { label: 'DNS Resolver', link: '/nettools/dnsresolver' }
     ]
   }
 ]
