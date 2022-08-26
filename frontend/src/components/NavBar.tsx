@@ -13,28 +13,16 @@ import React, { FunctionComponent } from 'react'
 const mockdata = [
   { label: 'Dashboard', icon: IconGauge },
   {
-    label: 'Market news',
+    label: 'NetAM',
     icon: IconNotes,
     initiallyOpened: true,
     links: [
-      { label: 'Overview', link: '/' },
-      { label: 'Forecasts', link: '/' },
-      { label: 'Outlook', link: '/' },
-      { label: 'Real time', link: '/' }
+      { label: 'Sections', link: '/netam/sections' },
+      { label: 'VLANs', link: '/netam/vlans' },
+      { label: 'Devices', link: '/netam/devices' },
+      { label: 'RackSpace', link: '/netam/rackspace' }
     ]
   },
-  {
-    label: 'Releases',
-    icon: IconCalendarStats,
-    links: [
-      { label: 'Upcoming releases', link: '/' },
-      { label: 'Previous releases', link: '/' },
-      { label: 'Releases schedule', link: '/' }
-    ]
-  },
-  { label: 'Analytics', icon: IconPresentationAnalytics },
-  { label: 'Contracts', icon: IconFileAnalytics },
-  { label: 'Settings', icon: IconAdjustments },
   {
     label: 'NetTools',
     icon: IconAdjustments,
