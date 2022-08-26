@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Group, Box, Collapse, ThemeIcon, UnstyledButton, createStyles } from '@mantine/core'
 import { TablerIcon, IconChevronRight } from '@tabler/icons'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -46,20 +46,31 @@ interface LinksGroupProps {
   icon: TablerIcon
   label: string
   initiallyOpened?: boolean
+  link?: string
   links?: Array<{ label: string, link: string }>
 }
 
-export const LinksGroup: FunctionComponent<LinksGroupProps> = ({ icon: Icon, label, initiallyOpened, links }: LinksGroupProps) => {
+export const LinksGroup: FunctionComponent<LinksGroupProps> = ({ icon: Icon, label, initiallyOpened, link, links }: LinksGroupProps) => {
   const { classes } = useStyles()
   const hasLinks = Array.isArray(links)
+  const navigate = useNavigate()
   const [opened, setOpened] = useState(initiallyOpened ?? false)
-  const items = (hasLinks ? links : []).map((link) => (
-    <Link key={link.label} to={link.link} className={classes.link}>{link.label}</Link>
+  const items = (hasLinks ? links : []).map((l) => (
+    <Link key={l.label} to={l.link} className={classes.link}>{l.label}</Link>
   ))
+
+  const handleLinkClick = (): void => {
+    if (link != null) {
+      navigate(link)
+      return
+    }
+
+    setOpened((o) => !o)
+  }
 
   return (
     <>
-      <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
+      <UnstyledButton onClick={handleLinkClick} className={classes.control}>
         <Group position="apart" spacing={0}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ThemeIcon variant="light" size={30}>
