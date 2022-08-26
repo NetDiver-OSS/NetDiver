@@ -4,7 +4,7 @@ import {
   IconAdjustments,
   IconCalendarStats,
   IconFileAnalytics,
-  IconGauge,
+  IconGauge, IconKey,
   IconNotes,
   IconPresentationAnalytics
 } from '@tabler/icons'
@@ -30,6 +30,14 @@ const mockdata = [
       { label: 'Mac Address Finder', link: '/nettools/macaddress' },
       { label: 'IP Range Calculator', link: '/nettools/ipcalculator' },
       { label: 'DNS Resolver', link: '/nettools/dnsresolver' }
+    ]
+  },
+  {
+    label: 'Administration',
+    icon: IconAdjustments,
+    links: [
+      { label: 'Workers', link: '/admin/workers' },
+      { label: 'Settings', link: '/admin/settings' }
     ]
   }
 ]
