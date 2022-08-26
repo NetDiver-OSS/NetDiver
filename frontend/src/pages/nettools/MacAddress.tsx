@@ -3,7 +3,7 @@ import { useGetMacAddressesAndVendorsQuery } from '../../../graphql/generated'
 import { Table } from '@mantine/core'
 
 export const MacAddress: FunctionComponent = () => {
-  const { data, loading, error } = useGetMacAddressesAndVendorsQuery()
+  const { data } = useGetMacAddressesAndVendorsQuery()
 
   return (
     <>
