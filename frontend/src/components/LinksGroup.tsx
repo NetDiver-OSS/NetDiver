@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, createStyles } from '@mantine/core'
+import { Group, Box, Collapse, ThemeIcon, UnstyledButton, createStyles } from '@mantine/core'
 import { TablerIcon, IconChevronRight } from '@tabler/icons'
 import { Link } from 'react-router-dom'
 
@@ -50,7 +50,7 @@ interface LinksGroupProps {
 }
 
 export const LinksGroup: FunctionComponent<LinksGroupProps> = ({ icon: Icon, label, initiallyOpened, links }: LinksGroupProps) => {
-  const { classes, theme } = useStyles()
+  const { classes } = useStyles()
   const hasLinks = Array.isArray(links)
   const [opened, setOpened] = useState(initiallyOpened ?? false)
   const items = (hasLinks ? links : []).map((link) => (
