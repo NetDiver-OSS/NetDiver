@@ -1,34 +1,22 @@
-import React, { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
-import { Text } from '@mantine/core'
+import { AppShell, Header, Navbar } from '@mantine/core'
+import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import { HomePage } from './pages/HomePage'
+import { NavBar } from './components/NavBar'
 
 function App (): React.ReactElement {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <Text>
-        Click on the Vite and React logos to learn more
-      </Text>
-    </div>
+    <AppShell
+      padding="md"
+      navbar={<NavBar />}
+      styles={(theme) => ({
+        main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] }
+      })}
+    >
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </AppShell>
   )
 }
 
