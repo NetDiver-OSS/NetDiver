@@ -9,7 +9,11 @@ import {
 import React, { FunctionComponent } from 'react'
 
 const mockdata = [
-  { label: 'Dashboard', icon: IconGauge },
+  {
+    label: 'Dashboard',
+    icon: IconGauge,
+    link: '/'
+  },
   {
     label: 'NetAM',
     icon: IconMask,
