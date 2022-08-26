@@ -1,12 +1,7 @@
-import { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent } from 'react'
 
 export const HomePage: FunctionComponent = () => {
-  const [counter, setCounter] = useState(0)
-
   return (
-    <p>
-      {counter}
-      <button onClick={() => setCounter(10)}></button>
-    </p>
+      <h1>NetDiver Landing page</h1>
   )
 }

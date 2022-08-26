@@ -1,7 +1,7 @@
-import { FunctionComponent } from 'react'
+import React, { FunctionComponent } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { Worker } from './worker'
-import { Setting } from './setting'
+import { Worker } from './Worker'
+import { Setting } from './Setting'
 
 export const AdminApp: FunctionComponent = () => {
   return (

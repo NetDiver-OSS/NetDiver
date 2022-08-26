@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import React, { FunctionComponent } from 'react'
 import { Section } from './Section'
 import { Routes, Route } from 'react-router-dom'
 import { RackSpace } from './RackSpace'

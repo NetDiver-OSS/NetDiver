@@ -1,12 +1,10 @@
 import { Code, createStyles, Group, Navbar, ScrollArea } from '@mantine/core'
 import { LinksGroup } from './LinksGroup'
 import {
-  IconAdjustments,
-  IconCalendarStats,
-  IconFileAnalytics,
-  IconGauge, IconKey,
-  IconNotes,
-  IconPresentationAnalytics
+  IconGauge,
+  IconMask,
+  IconSettings,
+  IconTools
 } from '@tabler/icons'
 import React, { FunctionComponent } from 'react'
 
@@ -14,7 +12,7 @@ const mockdata = [
   { label: 'Dashboard', icon: IconGauge },
   {
     label: 'NetAM',
-    icon: IconNotes,
+    icon: IconMask,
     initiallyOpened: true,
     links: [
       { label: 'Sections', link: '/netam/sections' },
@@ -25,7 +23,7 @@ const mockdata = [
   },
   {
     label: 'NetTools',
-    icon: IconAdjustments,
+    icon: IconTools,
     links: [
       { label: 'Mac Address Finder', link: '/nettools/macaddress' },
       { label: 'IP Range Calculator', link: '/nettools/ipcalculator' },
@@ -34,7 +32,7 @@ const mockdata = [
   },
   {
     label: 'Administration',
-    icon: IconAdjustments,
+    icon: IconSettings,
     links: [
       { label: 'Workers', link: '/admin/workers' },
       { label: 'Settings', link: '/admin/settings' }
