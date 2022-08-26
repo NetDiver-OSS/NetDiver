@@ -1,6 +1,7 @@
-import { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, createStyles } from '@mantine/core'
-import { TablerIcon, IconChevronLeft, IconChevronRight } from '@tabler/icons'
+import { TablerIcon, IconChevronRight } from '@tabler/icons'
+import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -51,18 +52,9 @@ interface LinksGroupProps {
 export const LinksGroup: FunctionComponent<LinksGroupProps> = ({ icon: Icon, label, initiallyOpened, links }: LinksGroupProps) => {
   const { classes, theme } = useStyles()
   const hasLinks = Array.isArray(links)
-  const [opened, setOpened] = useState(initiallyOpened || false)
-  const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft
+  const [opened, setOpened] = useState(initiallyOpened ?? false)
   const items = (hasLinks ? links : []).map((link) => (
-    <Text<'a'>
-      component="a"
-      className={classes.link}
-      href={link.link}
-      key={link.label}
-      onClick={(event) => event.preventDefault()}
-    >
-      {link.label}
-    </Text>
+    <Link key={link.label} to={link.link} className={classes.link}>{link.label}</Link>
   ))
 
   return (
@@ -76,12 +68,12 @@ export const LinksGroup: FunctionComponent<LinksGroupProps> = ({ icon: Icon, lab
             <Box ml="md">{label}</Box>
           </Box>
           {hasLinks && (
-            <ChevronIcon
+            <IconChevronRight
               className={classes.chevron}
               size={14}
               stroke={1.5}
               style={{
-                transform: opened ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)` : 'none'
+                transform: opened ? 'rotate(90deg)' : 'none'
               }}
             />
           )}

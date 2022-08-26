@@ -8,6 +8,7 @@ import {
   IconNotes,
   IconPresentationAnalytics
 } from '@tabler/icons'
+import React, { FunctionComponent } from 'react'
 
 const mockdata = [
   { label: 'Dashboard', icon: IconGauge },
@@ -81,7 +82,7 @@ const useStyles = createStyles((theme) => ({
   }
 }))
 
-export const NavBar = () => {
+export const NavBar: FunctionComponent = () => {
   const { classes } = useStyles()
   const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />)
 
