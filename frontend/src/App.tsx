@@ -1,4 +1,4 @@
-import { AppShell } from '@mantine/core'
+import { AppShell, Container } from '@mantine/core'
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { HomePage } from './pages/HomePage'
@@ -16,12 +16,14 @@ function App (): React.ReactElement {
         main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] }
       })}
     >
+      <Container size="lg">
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/netam/*" element={<NetAmApp />} />
         <Route path="/nettools/*" element={<NetToolsApp />} />
         <Route path="/admin/*" element={<AdminApp />} />
       </Routes>
+      </Container>
     </AppShell>
   )
 }

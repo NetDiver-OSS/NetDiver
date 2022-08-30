@@ -9,3 +9,22 @@ export const GET_MAC_ADDRESS_AND_VENDORS = gql`
         }
     }
 `
+export const GET_MAC_ADDRESS = gql`
+    query GetMacAddress($macPrefix: String!) {
+        getMacAddress(macprefix: $macPrefix) {
+            id
+            mac
+            vendor
+        }
+    }
+`
+
+export const GET_VENDOR = gql`
+    query GetVendor($vendor: String!) {
+        getVendor(vendor: $vendor) {
+            id
+            mac
+            vendor
+        }
+    }
+`
