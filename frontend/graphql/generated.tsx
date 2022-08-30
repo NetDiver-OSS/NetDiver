@@ -112,6 +112,20 @@ export type GetMacAddressesAndVendorsQueryVariables = Exact<{ [key: string]: nev
 
 export type GetMacAddressesAndVendorsQuery = { __typename?: 'Query', getMacAddressesAndVendors: Array<{ __typename?: 'MacAddress', id: number, mac: string, vendor?: string | null }> };
 
+export type GetMacAddressQueryVariables = Exact<{
+  macPrefix: Scalars['String'];
+}>;
+
+
+export type GetMacAddressQuery = { __typename?: 'Query', getMacAddress: Array<{ __typename?: 'MacAddress', id: number, mac: string, vendor?: string | null }> };
+
+export type GetVendorQueryVariables = Exact<{
+  vendor: Scalars['String'];
+}>;
+
+
+export type GetVendorQuery = { __typename?: 'Query', getVendor: Array<{ __typename?: 'MacAddress', id: number, mac: string, vendor?: string | null }> };
+
 
 export const GetMacAddressesAndVendorsDocument = gql`
     query GetMacAddressesAndVendors {
@@ -149,3 +163,77 @@ export function useGetMacAddressesAndVendorsLazyQuery(baseOptions?: Apollo.LazyQ
 export type GetMacAddressesAndVendorsQueryHookResult = ReturnType<typeof useGetMacAddressesAndVendorsQuery>;
 export type GetMacAddressesAndVendorsLazyQueryHookResult = ReturnType<typeof useGetMacAddressesAndVendorsLazyQuery>;
 export type GetMacAddressesAndVendorsQueryResult = Apollo.QueryResult<GetMacAddressesAndVendorsQuery, GetMacAddressesAndVendorsQueryVariables>;
+export const GetMacAddressDocument = gql`
+    query GetMacAddress($macPrefix: String!) {
+  getMacAddress(macprefix: $macPrefix) {
+    id
+    mac
+    vendor
+  }
+}
+    `;
+
+/**
+ * __useGetMacAddressQuery__
+ *
+ * To run a query within a React component, call `useGetMacAddressQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMacAddressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMacAddressQuery({
+ *   variables: {
+ *      macPrefix: // value for 'macPrefix'
+ *   },
+ * });
+ */
+export function useGetMacAddressQuery(baseOptions: Apollo.QueryHookOptions<GetMacAddressQuery, GetMacAddressQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMacAddressQuery, GetMacAddressQueryVariables>(GetMacAddressDocument, options);
+      }
+export function useGetMacAddressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMacAddressQuery, GetMacAddressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMacAddressQuery, GetMacAddressQueryVariables>(GetMacAddressDocument, options);
+        }
+export type GetMacAddressQueryHookResult = ReturnType<typeof useGetMacAddressQuery>;
+export type GetMacAddressLazyQueryHookResult = ReturnType<typeof useGetMacAddressLazyQuery>;
+export type GetMacAddressQueryResult = Apollo.QueryResult<GetMacAddressQuery, GetMacAddressQueryVariables>;
+export const GetVendorDocument = gql`
+    query GetVendor($vendor: String!) {
+  getVendor(vendor: $vendor) {
+    id
+    mac
+    vendor
+  }
+}
+    `;
+
+/**
+ * __useGetVendorQuery__
+ *
+ * To run a query within a React component, call `useGetVendorQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetVendorQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetVendorQuery({
+ *   variables: {
+ *      vendor: // value for 'vendor'
+ *   },
+ * });
+ */
+export function useGetVendorQuery(baseOptions: Apollo.QueryHookOptions<GetVendorQuery, GetVendorQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetVendorQuery, GetVendorQueryVariables>(GetVendorDocument, options);
+      }
+export function useGetVendorLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetVendorQuery, GetVendorQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetVendorQuery, GetVendorQueryVariables>(GetVendorDocument, options);
+        }
+export type GetVendorQueryHookResult = ReturnType<typeof useGetVendorQuery>;
+export type GetVendorLazyQueryHookResult = ReturnType<typeof useGetVendorLazyQuery>;
+export type GetVendorQueryResult = Apollo.QueryResult<GetVendorQuery, GetVendorQueryVariables>;
