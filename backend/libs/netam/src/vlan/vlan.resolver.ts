@@ -28,9 +28,9 @@ export class VlanResolver {
     });
   }
 
-  @Query(() => Vlan)
-  async getVlanName(@Args('name') name: string): Promise<Vlan> {
-    return this.prismaService.vlans.findFirst({
+  @Query(() => [Vlan])
+  async getVlanName(@Args('name') name: string): Promise<Vlan[]> {
+    return this.prismaService.vlans.findMany({
       orderBy: [{ name: 'asc' }],
       where: {
         name: {
