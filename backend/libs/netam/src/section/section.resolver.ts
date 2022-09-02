@@ -8,7 +8,12 @@ export class SectionResolver {
 
   @Query(() => [Section])
   async getSections(): Promise<Section[]> {
-    return this.prismaService.sections.findMany({ include: { vlan: true } });
+    return this.prismaService.sections.findMany({
+      include: {
+        vlan: true,
+        usages: true,
+      },
+    });
   }
 
   @Query(() => Section)
