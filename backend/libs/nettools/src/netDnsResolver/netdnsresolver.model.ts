@@ -15,9 +15,6 @@ export class NetDnsResolver {
   @Field(() => [String], { nullable: true })
   aaaa?: string[];
 
-  // @Field(,{ nullable: true })
-  // any: AnyRecord[] | null;
-  //
   @Field(() => [CaaType], { nullable: true })
   caa?: CaaType[];
 
