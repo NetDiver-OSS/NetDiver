@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Vlan } from '@netdiver/netam/vlan/vlan.model';
+import { Usage } from '../usage/usage.model';
 
 @ObjectType()
 export class Section {
@@ -24,8 +25,8 @@ export class Section {
   @Field(() => Vlan)
   vlan: Vlan;
 
-  // @Field(() => []Usages)
-  // usages: Usages[];
+  @Field(() => [Usage], { nullable: true })
+  usages?: Usage[];
 
   @Field()
   createdAt: Date;
