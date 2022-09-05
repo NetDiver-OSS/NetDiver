@@ -26,12 +26,12 @@ services:
   keycloak:
     image: 'quay.io/keycloak/keycloak:19.0'
     command:
-      - 'start-dev'
+      - start-dev --import-realm
     environment:
       KEYCLOAK_ADMIN: 'admin'
       KEYCLOAK_ADMIN_PASSWORD: 'admin'
     volumes:
-      - 'keycloak:/opt/jboss/keycloak'
+      - './keycloak/import:/opt/keycloak/data/import'
     ports:
       - '8080:8080'
 
