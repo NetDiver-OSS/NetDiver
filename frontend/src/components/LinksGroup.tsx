@@ -50,7 +50,10 @@ interface LinksGroupProps {
   links?: Array<{ label: string, link: string }>
 }
 
-export const LinksGroup: FunctionComponent<LinksGroupProps> = ({ icon: Icon, label, initiallyOpened, link, links }: LinksGroupProps) => {
+export const LinksGroup: FunctionComponent<LinksGroupProps> = ({
+  icon: Icon,
+  label, initiallyOpened, link, links
+}: LinksGroupProps) => {
   const { classes } = useStyles()
   const hasLinks = Array.isArray(links)
   const navigate = useNavigate()
