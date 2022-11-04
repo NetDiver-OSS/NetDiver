@@ -7,6 +7,12 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { SentryModule } from '@ntegral/nestjs-sentry';
 import { NettoolsModule } from '@netdiver/nettools';
 import { NetamModule } from '@netdiver/netam';
+import {
+  AuthGuard,
+  KeycloakConnectModule,
+  TokenValidation,
+} from 'nest-keycloak-connect';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -18,6 +24,14 @@ import { NetamModule } from '@netdiver/netam';
       store: redisStore,
       host: process.env.REDIS_HOST,
       port: process.env.REDIS_PORT,
+    }),
+    KeycloakConnectModule.register({
+      authServerUrl: process.env.KEYCLOAK_URL,
+      realm: process.env.KEYCLOAK_REALM,
+      clientId: process.env.KEYCLOAK_CLIENT_ID,
+      secret: process.env.KEYCLOAK_CLIENT_SECRET,
+      tokenValidation: TokenValidation.ONLINE,
+      logLevels: ['warn', 'error'],
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -49,6 +63,12 @@ import { NetamModule } from '@netdiver/netam';
     // NetDiver modules
     NetamModule,
     NettoolsModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
   ],
 })
 export class AppModule {}
