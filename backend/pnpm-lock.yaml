@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@nestjs/apollo': ^10.0.19
+  '@nestjs/axios': ^1.0.0
   '@nestjs/cli': ^8.0.0
   '@nestjs/common': ^8.0.0
   '@nestjs/config': ^2.2.0
@@ -53,6 +54,7 @@ specifiers:
 
 dependencies:
   '@nestjs/apollo': 10.0.19_n6vb7ca4m7y4wswgvv5hfzwmti
+  '@nestjs/axios': 1.0.0_zyw32gfu5yv6lfoz64j5eiekme
   '@nestjs/common': 8.4.7_uirohxnk3z7gtqadsokazazdlq
   '@nestjs/config': 2.2.0_zyw32gfu5yv6lfoz64j5eiekme
   '@nestjs/core': 8.4.7_vfcxgjfmqg6zhc6pfncoklq5wm
@@ -1116,6 +1118,21 @@ packages:
       iterall: 1.3.0
       lodash.omit: 4.5.0
       tslib: 2.4.0
+    dev: false
+
+  /@nestjs/axios/1.0.0_zyw32gfu5yv6lfoz64j5eiekme:
+    resolution: {integrity: sha512-DzBIhmBPgPAf/Hf4oHVgNNrcYcmAwV6v1TeZFkEaotO5AtXEfCJ6c07Po4EmylAA0PFp+8+S77PBEcLNEMOCGQ==}
+    peerDependencies:
+      '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
+      reflect-metadata: ^0.1.12
+      rxjs: ^6.0.0 || ^7.0.0
+    dependencies:
+      '@nestjs/common': 8.4.7_uirohxnk3z7gtqadsokazazdlq
+      axios: 1.1.3
+      reflect-metadata: 0.1.13
+      rxjs: 7.5.6
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /@nestjs/cli/8.2.8:
@@ -2430,7 +2447,6 @@ packages:
     transitivePeerDependencies:
       - debug
     dev: false
-    optional: true
 
   /babel-jest/28.1.3_@babel+core@7.18.9:
     resolution: {integrity: sha512-epUaPOEWMk3cWX0M/sPvCHHCe9fMFAa/9hXEgKP8nFfNl/jlGkE9ucq9NqkZGXLDduCJYS0UvSlPUwC0S+rH6Q==}
@@ -5282,7 +5298,6 @@ packages:
   /proxy-from-env/1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
     dev: false
-    optional: true
 
   /pump/3.0.0:
     resolution: {integrity: sha512-LwZy+p3SFs1Pytd/jYct4wpv49HiYCqd9Rlc5ZVdk0V+8Yzv6jR5Blk3TRmPL1ft69TxP0IMZGJ+WPFU2BFhww==}
