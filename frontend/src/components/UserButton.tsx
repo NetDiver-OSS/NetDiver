@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import {
   UnstyledButton,
   UnstyledButtonProps,
@@ -29,7 +29,7 @@ interface UserButtonProps extends UnstyledButtonProps {
   icon?: React.ReactNode
 }
 
-export function UserButton ({ image, name, email, icon, ...others }: UserButtonProps) {
+export const UserButton: FunctionComponent<UserButtonProps> = ({ image, name, email, icon, ...others }) => {
   const { classes } = useStyles()
 
   return (

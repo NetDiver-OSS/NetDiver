@@ -6,7 +6,7 @@ const keycloak = new Keycloak({
   clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID
 })
 
-export const keycloakEventManager = (event: string, error?: unknown) => {
+export const keycloakEventManager = (event: string, error?: unknown): void => {
   switch (event) {
     case 'onAuthSuccess':
       break
