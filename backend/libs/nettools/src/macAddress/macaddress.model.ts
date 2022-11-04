@@ -11,3 +11,9 @@ export class MacAddress {
   @Field({ nullable: true })
   vendor?: string;
 }
+
+@ObjectType()
+export class OuiSync {
+  @Field()
+  result: boolean;
+}
