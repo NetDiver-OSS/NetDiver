@@ -5,7 +5,7 @@ import { MantineProvider } from '@mantine/core'
 import { BrowserRouter } from 'react-router-dom'
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import { ReactKeycloakProvider } from '@react-keycloak/web'
-import keycloak from './keycloak.client'
+import keycloak, { keycloakEventManager } from './keycloak.client'
 
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',
@@ -13,15 +13,13 @@ const client = new ApolloClient({
 })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <ReactKeycloakProvider authClient={keycloak}>
-      <ApolloProvider client={client}>
-        <MantineProvider theme={{ colorScheme: 'dark', loader: 'bars' }} withGlobalStyles withNormalizeCSS>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-        </MantineProvider>
-      </ApolloProvider>
-    </ReactKeycloakProvider>
-  </React.StrictMode>
+  <ReactKeycloakProvider authClient={keycloak} onEvent={keycloakEventManager}>
+    <ApolloProvider client={client}>
+      <MantineProvider theme={{ colorScheme: 'dark', loader: 'bars' }} withGlobalStyles withNormalizeCSS>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+      </MantineProvider>
+    </ApolloProvider>
+  </ReactKeycloakProvider>
 )

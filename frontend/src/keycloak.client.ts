@@ -6,4 +6,17 @@ const keycloak = new Keycloak({
   clientId: 'frontend'
 })
 
+export const keycloakEventManager = (event: string, error?: unknown) => {
+  switch (event) {
+    case 'onAuthSuccess':
+      break
+    case 'onAuthError':
+      void keycloak?.logout()
+      break
+    default:
+      console.log('onKeycloakEvent', event, error)
+      break
+  }
+}
+
 export default keycloak

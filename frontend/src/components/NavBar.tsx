@@ -1,12 +1,15 @@
-import { Code, createStyles, Group, Navbar, ScrollArea } from '@mantine/core'
+import { Code, createStyles, Group, Menu, Navbar, ScrollArea } from '@mantine/core'
 import { LinksGroup } from './LinksGroup'
 import {
-  IconGauge,
+  IconGauge, IconLogout,
   IconMask,
   IconSettings,
   IconTools
 } from '@tabler/icons'
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
+import { UserButton } from './UserButton'
+import { useKeycloak } from '@react-keycloak/web'
+import { KeycloakProfile } from 'keycloak-js'
 
 const mockdata = [
   {
@@ -82,7 +85,22 @@ const useStyles = createStyles((theme) => ({
 
 export const NavBar: FunctionComponent = () => {
   const { classes } = useStyles()
-  const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />)
+  const { initialized, keycloak } = useKeycloak()
+  const [user, setUser] = useState<KeycloakProfile | null>(null)
+
+  const handleLogout = (): void => {
+    void keycloak?.logout()
+  }
+
+  useEffect(() => {
+    void keycloak?.loadUserProfile().then((profile) => {
+      setUser(profile)
+    })
+  }, [])
+
+  if (!initialized || (user == null)) {
+    return null
+  }
 
   return (
     <Navbar height={'100vh'} width={{ sm: 300 }} p="md" className={classes.navbar}>
@@ -94,16 +112,27 @@ export const NavBar: FunctionComponent = () => {
     </Navbar.Section>
 
     <Navbar.Section grow className={classes.links} component={ScrollArea}>
-      <div className={classes.linksInner}>{links}</div>
+      <div className={classes.linksInner}>
+        {mockdata.map((item) => <LinksGroup {...item} key={item.label}/>)}
+      </div>
     </Navbar.Section>
 
-    <Navbar.Section className={classes.footer}>
-      {/* <UserButton */}
-      {/*  image="https://images.unsplash.com/photo-1xlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80" */}
-      {/*  name="Ann Nullpointer" */}
-      {/*  email="anullpointer@yahoo.com" */}
-      {/* /> */}
-    </Navbar.Section>
+      <Menu transition="pop" position="bottom-end">
+        <Menu.Target>
+          <Navbar.Section className={classes.footer}>
+            <UserButton
+             image="https://images.unsplash.com/photo-1xlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
+             name={`${user.firstName ?? ''} ${user.lastName ?? ''}`}
+             email={user.email ?? ''}
+            />
+          </Navbar.Section>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item icon={<IconLogout size={14} />} color="red" onClick={handleLogout}>
+            Logout
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
   </Navbar>
   )
 }
