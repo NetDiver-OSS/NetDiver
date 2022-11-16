@@ -9,8 +9,18 @@ export class MacAddressResolver {
   constructor(private readonly prismaService: PrismaService) {}
 
   @Query(() => [MacAddress])
-  async getMacAddressesAndVendors(): Promise<MacAddress[]> {
+  async getMacAddressesAndVendors(
+    @Args('pageNumber') pageNumber: number,
+    @Args('pageEntries') pageEntries: number,
+  ): Promise<MacAddress[]> {
+    const entries = pageNumber * pageEntries;
+    let cursorOffset = entries - pageEntries;
+    if (cursorOffset < 0) {
+      cursorOffset = 0;
+    }
     return this.prismaService.macAddresses.findMany({
+      take: entries,
+      skip: cursorOffset,
       orderBy: [
         {
           mac: 'asc',
@@ -24,9 +34,18 @@ export class MacAddressResolver {
 
   @Query(() => [MacAddress])
   async getMacAddress(
+    @Args('pageNumber') pageNumber: number,
+    @Args('pageEntries') pageEntries: number,
     @Args('macprefix') macprefix: string,
   ): Promise<MacAddress[]> {
+    const entries = pageNumber * pageEntries;
+    let cursorOffset = entries - pageEntries;
+    if (cursorOffset < 0) {
+      cursorOffset = 0;
+    }
     return this.prismaService.macAddresses.findMany({
+      take: entries,
+      skip: cursorOffset,
       orderBy: [
         {
           mac: 'asc',
@@ -44,8 +63,19 @@ export class MacAddressResolver {
   }
 
   @Query(() => [MacAddress])
-  async getVendor(@Args('vendor') vendor: string): Promise<MacAddress[]> {
+  async getVendor(
+    @Args('pageNumber') pageNumber: number,
+    @Args('pageEntries') pageEntries: number,
+    @Args('vendor') vendor: string,
+  ): Promise<MacAddress[]> {
+    const entries = pageNumber * pageEntries;
+    let cursorOffset = entries - pageEntries;
+    if (cursorOffset < 0) {
+      cursorOffset = 0;
+    }
     return this.prismaService.macAddresses.findMany({
+      take: entries,
+      skip: cursorOffset,
       orderBy: [
         {
           mac: 'asc',
