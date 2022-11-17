@@ -59,6 +59,21 @@ export class VlanResolver {
     });
   }
 
+  @Query(() => Vlan)
+  async deleteVlan(
+    @Args('vlan_id', { type: () => Int }) vlan_id: number,
+  ): Promise<Vlan> {
+    const vlan: Vlan = await this.prismaService.vlans.findFirst({
+      where: { vlanId: vlan_id },
+    });
+    await this.prismaService.vlans.delete({
+      where: {
+        vlanId: vlan_id,
+      },
+    });
+    return vlan;
+  }
+
   @ResolveField()
   async sections(@Parent() vlan: Vlan) {
     const { id } = vlan;
