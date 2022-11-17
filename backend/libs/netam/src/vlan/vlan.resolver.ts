@@ -24,7 +24,7 @@ export class VlanResolver {
   async getVlanId(@Args('id', { type: () => Int }) id: number): Promise<Vlan> {
     return this.prismaService.vlans.findFirst({
       orderBy: [{ id: 'asc' }],
-      where: { id: id },
+      where: { vlanId: id },
     });
   }
 
