@@ -1,5 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { SentryService } from '@ntegral/nestjs-sentry';
+
 import {
   FastifyAdapter,
   NestFastifyApplication,
@@ -11,6 +13,7 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
+  app.useLogger(SentryService.SentryServiceInstance());
   await app.listen(3000);
 }
 
