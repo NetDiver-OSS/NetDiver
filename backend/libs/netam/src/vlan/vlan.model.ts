@@ -12,6 +12,9 @@ export class Vlan {
   @Field({ nullable: true })
   description?: string;
 
+  @Field(() => Int)
+  vlanId: number;
+
   @Field(() => [Section], { nullable: true })
   sections?: Section[];
 
