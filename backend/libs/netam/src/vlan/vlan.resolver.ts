@@ -55,10 +55,7 @@ export class VlanResolver {
         vlanId: vlanId,
       },
     });
-    return this.prismaService.vlans.findFirst({
-      orderBy: [{ id: 'asc' }],
-      where: { vlanId: vlanId },
-    });
+    return this.getVlanId(vlanId);
   }
 
   @Query(() => Vlan)
