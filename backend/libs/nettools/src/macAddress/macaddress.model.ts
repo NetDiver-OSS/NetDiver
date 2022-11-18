@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Paginated } from '../../../../src/utils/paginate';
 
 @ObjectType()
 export class MacAddress {
@@ -11,6 +12,9 @@ export class MacAddress {
   @Field({ nullable: true })
   vendor?: string;
 }
+
+@ObjectType()
+export class PaginatedMacAddress extends Paginated(MacAddress) {}
 
 @ObjectType()
 export class OuiSync {
