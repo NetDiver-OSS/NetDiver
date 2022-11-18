@@ -1,16 +1,23 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { MacAddress, OuiSync } from './macaddress.model';
+import { MacAddress, OuiSync, PaginatedMacAddress } from './macaddress.model';
 import { PrismaService } from '../../../../src/database/prisma.service';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import { PageInfo } from '../../../../src/utils/page-info';
 
 @Resolver(() => MacAddress)
 export class MacAddressResolver {
   constructor(private readonly prismaService: PrismaService) {}
 
-  @Query(() => [MacAddress])
-  async getMacAddressesAndVendors(): Promise<MacAddress[]> {
-    return this.prismaService.macAddresses.findMany({
+  @Query(() => PaginatedMacAddress)
+  async getMacAddressesAndVendors(
+    @Args('page', { type: () => PageInfo }) page: PageInfo,
+  ): Promise<PaginatedMacAddress> {
+    const { cursor, size } = page;
+
+    const macAddresses = await this.prismaService.macAddresses.findMany({
+      take: size,
+      cursor: { id: Number(cursor) },
       orderBy: [
         {
           mac: 'asc',
@@ -20,6 +27,11 @@ export class MacAddressResolver {
         },
       ],
     });
+
+    return {
+      data: macAddresses,
+      total: macAddresses.length,
+    };
   }
 
   @Query(() => [MacAddress])
