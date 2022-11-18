@@ -78,21 +78,11 @@ export class VlanResolver {
     @Args('description', { nullable: true }) description?: string,
     @Args('vlanId', { type: () => Int, nullable: true }) vlanId?: number,
   ): Promise<Vlan> {
-    type vlanStruct = {
-      name?: string;
-      description?: string;
-      vlanId?: number;
-    };
+    const vlanData: Partial<Vlan> = {};
 
-    const vlanData: vlanStruct = {};
-
-    name !== null ? (vlanData.name = name) : (vlanData.name = undefined);
-    description !== null
-      ? (vlanData.description = description)
-      : (vlanData.description = undefined);
-    vlanId !== null
-      ? (vlanData.vlanId = vlanId)
-      : (vlanData.vlanId = undefined);
+    if (name) vlanData.name = name;
+    if (description) vlanData.description = description;
+    if (vlanId) vlanData.vlanId = vlanId;
 
     await this.prismaService.vlans.update({
       where: { id: id },
