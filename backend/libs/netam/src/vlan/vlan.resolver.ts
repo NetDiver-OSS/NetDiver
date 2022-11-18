@@ -74,6 +74,38 @@ export class VlanResolver {
     return vlan;
   }
 
+  @Query(() => Vlan)
+  async updateVlan(
+    @Args('id', { type: () => Int }) id: number,
+    @Args('name', { defaultValue: null }) name: string,
+    @Args('description', { defaultValue: null }) description: string,
+    @Args('vlanId', { type: () => Int, defaultValue: null }) vlanId: number,
+  ): Promise<Vlan> {
+    type vlanStruct = {
+      name?: string;
+      description?: string;
+      vlanId?: number;
+    };
+
+    const vlanData: vlanStruct = {};
+
+    name !== null ? (vlanData.name = name) : (vlanData.name = undefined);
+    description !== null
+      ? (vlanData.description = description)
+      : (vlanData.description = undefined);
+    vlanId !== null
+      ? (vlanData.vlanId = vlanId)
+      : (vlanData.vlanId = undefined);
+
+    await this.prismaService.vlans.update({
+      where: { id: id },
+      data: vlanData,
+    });
+    return this.prismaService.vlans.findFirst({
+      where: { id: id },
+    });
+  }
+
   @ResolveField()
   async sections(@Parent() vlan: Vlan) {
     const { id } = vlan;
