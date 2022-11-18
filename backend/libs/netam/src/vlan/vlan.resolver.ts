@@ -46,7 +46,7 @@ export class VlanResolver {
   async createVlan(
     @Args('name') name: string,
     @Args('vlanId', { type: () => Int }) vlanId: number,
-    @Args('description', { defaultValue: null }) description: string,
+    @Args('description', { nullable: true }) description?: string,
   ): Promise<Vlan> {
     await this.prismaService.vlans.create({
       data: {
@@ -77,9 +77,9 @@ export class VlanResolver {
   @Query(() => Vlan)
   async updateVlan(
     @Args('id', { type: () => Int }) id: number,
-    @Args('name', { defaultValue: null }) name: string,
-    @Args('description', { defaultValue: null }) description: string,
-    @Args('vlanId', { type: () => Int, defaultValue: null }) vlanId: number,
+    @Args('name', { nullable: true }) name?: string,
+    @Args('description', { nullable: true }) description?: string,
+    @Args('vlanId', { type: () => Int, nullable: true }) vlanId?: number,
   ): Promise<Vlan> {
     type vlanStruct = {
       name?: string;
