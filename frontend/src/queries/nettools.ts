@@ -28,3 +28,17 @@ export const GET_VENDOR = gql`
         }
     }
 `
+export const GET_NET_RANGE = gql`
+    query GetNetRange($network: String!) {
+        getNetRange(network: $network) {
+            network
+            broadcast
+            bitmask
+            mask
+            size
+            range
+            first
+            last
+        }
+    }
+`

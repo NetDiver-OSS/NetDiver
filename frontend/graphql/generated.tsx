@@ -16,11 +16,37 @@ export type Scalars = {
   Timestamp: any;
 };
 
+export type CaaType = {
+  __typename?: 'CaaType';
+  contactemail?: Maybe<Scalars['String']>;
+  contactphone?: Maybe<Scalars['String']>;
+  critical: Scalars['Int'];
+  iodef?: Maybe<Scalars['String']>;
+  issue?: Maybe<Scalars['String']>;
+  issuewild?: Maybe<Scalars['String']>;
+};
+
 export type MacAddress = {
   __typename?: 'MacAddress';
   id: Scalars['Int'];
   mac: Scalars['String'];
   vendor?: Maybe<Scalars['String']>;
+};
+
+export type MxType = {
+  __typename?: 'MxType';
+  exchange: Scalars['String'];
+  priority: Scalars['Int'];
+};
+
+export type NaptrType = {
+  __typename?: 'NaptrType';
+  flags: Scalars['String'];
+  order: Scalars['Int'];
+  preference: Scalars['Int'];
+  regexp: Scalars['String'];
+  replacement: Scalars['String'];
+  service: Scalars['String'];
 };
 
 export type NetCalculator = {
@@ -36,18 +62,71 @@ export type NetCalculator = {
   splited?: Maybe<Array<Scalars['String']>>;
 };
 
+export type NetDnsResolver = {
+  __typename?: 'NetDnsResolver';
+  a?: Maybe<Array<Scalars['String']>>;
+  aaaa?: Maybe<Array<Scalars['String']>>;
+  caa?: Maybe<Array<CaaType>>;
+  cname?: Maybe<Array<Scalars['String']>>;
+  mx?: Maybe<Array<MxType>>;
+  naptr?: Maybe<Array<NaptrType>>;
+  ns?: Maybe<Array<Scalars['String']>>;
+  ptr?: Maybe<Array<Scalars['String']>>;
+  soa?: Maybe<SoaType>;
+  srv?: Maybe<Array<SrvType>>;
+  txt?: Maybe<Array<Array<Scalars['String']>>>;
+};
+
+export type OuiSync = {
+  __typename?: 'OuiSync';
+  result: Scalars['Boolean'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  createVlan: Vlan;
+  deleteVlan: Vlan;
+  getDnsResolution: NetDnsResolver;
   getMacAddress: Array<MacAddress>;
   getMacAddressesAndVendors: Array<MacAddress>;
   getNetRange: NetCalculator;
   getNetRangeNext: NetCalculator;
   getNetRangePrevious: NetCalculator;
   getNetRangeSplit: NetCalculator;
+  getSectionByVlanName: Array<Section>;
+  getSectionId: Section;
+  getSectionName: Array<Section>;
+  getSectionNetwork: Array<Section>;
+  getSectionScanType: Array<Section>;
   getSections: Array<Section>;
+  getUsageFqdn: Array<Usage>;
+  getUsageId: Usage;
+  getUsageStatus: Array<Usage>;
+  getUsages: Array<Usage>;
   getVendor: Array<MacAddress>;
-  getVlan: Vlan;
+  getVlanId: Vlan;
+  getVlanName: Array<Vlan>;
   getVlans: Array<Vlan>;
+  syncOuiDatabase: OuiSync;
+  updateVlan: Vlan;
+};
+
+
+export type QueryCreateVlanArgs = {
+  description?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  vlanId: Scalars['Int'];
+};
+
+
+export type QueryDeleteVlanArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetDnsResolutionArgs = {
+  request: Scalars['String'];
+  type: Scalars['String'];
 };
 
 
@@ -77,13 +156,66 @@ export type QueryGetNetRangeSplitArgs = {
 };
 
 
+export type QueryGetSectionByVlanNameArgs = {
+  vlan: Scalars['String'];
+};
+
+
+export type QueryGetSectionIdArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetSectionNameArgs = {
+  name: Scalars['String'];
+};
+
+
+export type QueryGetSectionNetworkArgs = {
+  network: Scalars['String'];
+};
+
+
+export type QueryGetSectionScanTypeArgs = {
+  scantype: Scalars['String'];
+};
+
+
+export type QueryGetUsageFqdnArgs = {
+  fqdn: Scalars['String'];
+};
+
+
+export type QueryGetUsageIdArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetUsageStatusArgs = {
+  status: Scalars['String'];
+};
+
+
 export type QueryGetVendorArgs = {
   vendor: Scalars['String'];
 };
 
 
-export type QueryGetVlanArgs = {
+export type QueryGetVlanIdArgs = {
+  vlanId: Scalars['Int'];
+};
+
+
+export type QueryGetVlanNameArgs = {
+  name: Scalars['String'];
+};
+
+
+export type QueryUpdateVlanArgs = {
+  description?: InputMaybe<Scalars['String']>;
   id: Scalars['Int'];
+  name?: InputMaybe<Scalars['String']>;
+  vlanId?: InputMaybe<Scalars['Int']>;
 };
 
 export type Section = {
@@ -95,7 +227,38 @@ export type Section = {
   network: Scalars['String'];
   scantype: Scalars['String'];
   schedule?: Maybe<Scalars['String']>;
+  usages?: Maybe<Array<Usage>>;
   vlan: Vlan;
+};
+
+export type SoaType = {
+  __typename?: 'SoaType';
+  expire: Scalars['Int'];
+  hostmaster: Scalars['String'];
+  minttl: Scalars['Int'];
+  nsname: Scalars['String'];
+  refresh: Scalars['Int'];
+  retry: Scalars['Int'];
+  serial: Scalars['Int'];
+};
+
+export type SrvType = {
+  __typename?: 'SrvType';
+  name: Scalars['String'];
+  port: Scalars['Int'];
+  priority: Scalars['Int'];
+  weight: Scalars['Int'];
+};
+
+export type Usage = {
+  __typename?: 'Usage';
+  createdAt: Scalars['Timestamp'];
+  description?: Maybe<Scalars['String']>;
+  fqdn?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  identifier: Scalars['String'];
+  ipUsed: Scalars['String'];
+  status: Scalars['String'];
 };
 
 export type Vlan = {
@@ -105,6 +268,7 @@ export type Vlan = {
   id: Scalars['Int'];
   name: Scalars['String'];
   sections?: Maybe<Array<Section>>;
+  vlanId: Scalars['Int'];
 };
 
 export type GetMacAddressesAndVendorsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -125,6 +289,13 @@ export type GetVendorQueryVariables = Exact<{
 
 
 export type GetVendorQuery = { __typename?: 'Query', getVendor: Array<{ __typename?: 'MacAddress', id: number, mac: string, vendor?: string | null }> };
+
+export type GetNetRangeQueryVariables = Exact<{
+  network: Scalars['String'];
+}>;
+
+
+export type GetNetRangeQuery = { __typename?: 'Query', getNetRange: { __typename?: 'NetCalculator', network?: string | null, broadcast?: string | null, bitmask?: string | null, mask?: string | null, size?: string | null, range?: string | null, first?: string | null, last?: string | null } };
 
 
 export const GetMacAddressesAndVendorsDocument = gql`
@@ -237,3 +408,45 @@ export function useGetVendorLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetVendorQueryHookResult = ReturnType<typeof useGetVendorQuery>;
 export type GetVendorLazyQueryHookResult = ReturnType<typeof useGetVendorLazyQuery>;
 export type GetVendorQueryResult = Apollo.QueryResult<GetVendorQuery, GetVendorQueryVariables>;
+export const GetNetRangeDocument = gql`
+    query GetNetRange($network: String!) {
+  getNetRange(network: $network) {
+    network
+    broadcast
+    bitmask
+    mask
+    size
+    range
+    first
+    last
+  }
+}
+    `;
+
+/**
+ * __useGetNetRangeQuery__
+ *
+ * To run a query within a React component, call `useGetNetRangeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNetRangeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNetRangeQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
+export function useGetNetRangeQuery(baseOptions: Apollo.QueryHookOptions<GetNetRangeQuery, GetNetRangeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNetRangeQuery, GetNetRangeQueryVariables>(GetNetRangeDocument, options);
+      }
+export function useGetNetRangeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNetRangeQuery, GetNetRangeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNetRangeQuery, GetNetRangeQueryVariables>(GetNetRangeDocument, options);
+        }
+export type GetNetRangeQueryHookResult = ReturnType<typeof useGetNetRangeQuery>;
+export type GetNetRangeLazyQueryHookResult = ReturnType<typeof useGetNetRangeLazyQuery>;
+export type GetNetRangeQueryResult = Apollo.QueryResult<GetNetRangeQuery, GetNetRangeQueryVariables>;
