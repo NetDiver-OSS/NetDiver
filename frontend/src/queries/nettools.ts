@@ -42,3 +42,45 @@ export const GET_NET_RANGE = gql`
         }
     }
 `
+
+export const GET_NET_PREV_RANGE = gql`
+    query GetNetPreviousRange($network: String!) {
+        getNetRangePrevious(network: $network) {
+            network
+            broadcast
+            bitmask
+            mask
+            size
+            range
+            first
+            last
+        }
+    }
+`
+export const GET_NET_NEXT_RANGE = gql`
+    query GetNetNextRange($network: String!) {
+        getNetRangeNext(network: $network) {
+            network
+            broadcast
+            bitmask
+            mask
+            size
+            range
+            first
+            last
+        }
+    }
+`
+export const GET_NET_RANGE_SPLIT = gql`
+    query GetNetRangeSplit(
+        $network: String!,
+        $into: String!
+    ) {
+        getNetRangeSplit(
+            network: $network,
+            into: $into
+        ){
+            splited
+        }
+    }
+`

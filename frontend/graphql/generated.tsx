@@ -297,6 +297,28 @@ export type GetNetRangeQueryVariables = Exact<{
 
 export type GetNetRangeQuery = { __typename?: 'Query', getNetRange: { __typename?: 'NetCalculator', network?: string | null, broadcast?: string | null, bitmask?: string | null, mask?: string | null, size?: string | null, range?: string | null, first?: string | null, last?: string | null } };
 
+export type GetNetPreviousRangeQueryVariables = Exact<{
+  network: Scalars['String'];
+}>;
+
+
+export type GetNetPreviousRangeQuery = { __typename?: 'Query', getNetRangePrevious: { __typename?: 'NetCalculator', network?: string | null, broadcast?: string | null, bitmask?: string | null, mask?: string | null, size?: string | null, range?: string | null, first?: string | null, last?: string | null } };
+
+export type GetNetNextRangeQueryVariables = Exact<{
+  network: Scalars['String'];
+}>;
+
+
+export type GetNetNextRangeQuery = { __typename?: 'Query', getNetRangeNext: { __typename?: 'NetCalculator', network?: string | null, broadcast?: string | null, bitmask?: string | null, mask?: string | null, size?: string | null, range?: string | null, first?: string | null, last?: string | null } };
+
+export type GetNetRangeSplitQueryVariables = Exact<{
+  network: Scalars['String'];
+  into: Scalars['String'];
+}>;
+
+
+export type GetNetRangeSplitQuery = { __typename?: 'Query', getNetRangeSplit: { __typename?: 'NetCalculator', splited?: Array<string> | null } };
+
 
 export const GetMacAddressesAndVendorsDocument = gql`
     query GetMacAddressesAndVendors {
@@ -450,3 +472,123 @@ export function useGetNetRangeLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetNetRangeQueryHookResult = ReturnType<typeof useGetNetRangeQuery>;
 export type GetNetRangeLazyQueryHookResult = ReturnType<typeof useGetNetRangeLazyQuery>;
 export type GetNetRangeQueryResult = Apollo.QueryResult<GetNetRangeQuery, GetNetRangeQueryVariables>;
+export const GetNetPreviousRangeDocument = gql`
+    query GetNetPreviousRange($network: String!) {
+  getNetRangePrevious(network: $network) {
+    network
+    broadcast
+    bitmask
+    mask
+    size
+    range
+    first
+    last
+  }
+}
+    `;
+
+/**
+ * __useGetNetPreviousRangeQuery__
+ *
+ * To run a query within a React component, call `useGetNetPreviousRangeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNetPreviousRangeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNetPreviousRangeQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
+export function useGetNetPreviousRangeQuery(baseOptions: Apollo.QueryHookOptions<GetNetPreviousRangeQuery, GetNetPreviousRangeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNetPreviousRangeQuery, GetNetPreviousRangeQueryVariables>(GetNetPreviousRangeDocument, options);
+      }
+export function useGetNetPreviousRangeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNetPreviousRangeQuery, GetNetPreviousRangeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNetPreviousRangeQuery, GetNetPreviousRangeQueryVariables>(GetNetPreviousRangeDocument, options);
+        }
+export type GetNetPreviousRangeQueryHookResult = ReturnType<typeof useGetNetPreviousRangeQuery>;
+export type GetNetPreviousRangeLazyQueryHookResult = ReturnType<typeof useGetNetPreviousRangeLazyQuery>;
+export type GetNetPreviousRangeQueryResult = Apollo.QueryResult<GetNetPreviousRangeQuery, GetNetPreviousRangeQueryVariables>;
+export const GetNetNextRangeDocument = gql`
+    query GetNetNextRange($network: String!) {
+  getNetRangeNext(network: $network) {
+    network
+    broadcast
+    bitmask
+    mask
+    size
+    range
+    first
+    last
+  }
+}
+    `;
+
+/**
+ * __useGetNetNextRangeQuery__
+ *
+ * To run a query within a React component, call `useGetNetNextRangeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNetNextRangeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNetNextRangeQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
+export function useGetNetNextRangeQuery(baseOptions: Apollo.QueryHookOptions<GetNetNextRangeQuery, GetNetNextRangeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNetNextRangeQuery, GetNetNextRangeQueryVariables>(GetNetNextRangeDocument, options);
+      }
+export function useGetNetNextRangeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNetNextRangeQuery, GetNetNextRangeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNetNextRangeQuery, GetNetNextRangeQueryVariables>(GetNetNextRangeDocument, options);
+        }
+export type GetNetNextRangeQueryHookResult = ReturnType<typeof useGetNetNextRangeQuery>;
+export type GetNetNextRangeLazyQueryHookResult = ReturnType<typeof useGetNetNextRangeLazyQuery>;
+export type GetNetNextRangeQueryResult = Apollo.QueryResult<GetNetNextRangeQuery, GetNetNextRangeQueryVariables>;
+export const GetNetRangeSplitDocument = gql`
+    query GetNetRangeSplit($network: String!, $into: String!) {
+  getNetRangeSplit(network: $network, into: $into) {
+    splited
+  }
+}
+    `;
+
+/**
+ * __useGetNetRangeSplitQuery__
+ *
+ * To run a query within a React component, call `useGetNetRangeSplitQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNetRangeSplitQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNetRangeSplitQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *      into: // value for 'into'
+ *   },
+ * });
+ */
+export function useGetNetRangeSplitQuery(baseOptions: Apollo.QueryHookOptions<GetNetRangeSplitQuery, GetNetRangeSplitQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNetRangeSplitQuery, GetNetRangeSplitQueryVariables>(GetNetRangeSplitDocument, options);
+      }
+export function useGetNetRangeSplitLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNetRangeSplitQuery, GetNetRangeSplitQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNetRangeSplitQuery, GetNetRangeSplitQueryVariables>(GetNetRangeSplitDocument, options);
+        }
+export type GetNetRangeSplitQueryHookResult = ReturnType<typeof useGetNetRangeSplitQuery>;
+export type GetNetRangeSplitLazyQueryHookResult = ReturnType<typeof useGetNetRangeSplitLazyQuery>;
+export type GetNetRangeSplitQueryResult = Apollo.QueryResult<GetNetRangeSplitQuery, GetNetRangeSplitQueryVariables>;
