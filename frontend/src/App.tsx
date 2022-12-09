@@ -1,5 +1,5 @@
 import { AppShell, Container, LoadingOverlay } from '@mantine/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { HomePage } from './pages/HomePage'
 import { NavBar } from './components/NavBar'
@@ -8,6 +8,7 @@ import { NetAmApp } from './pages/netam/NetAmApp'
 import { AdminApp } from './pages/admin/AdminApp'
 import { useKeycloak } from '@react-keycloak/web'
 import { LoginPage } from './pages/LoginPage'
+import { registerSentry } from './sentry.client'
 
 function App (): React.ReactElement {
   const { initialized, keycloak } = useKeycloak()
@@ -15,6 +16,10 @@ function App (): React.ReactElement {
   if (!initialized) {
     return <LoadingOverlay visible={true} overlayBlur={2} />
   }
+
+  useEffect(() => {
+    registerSentry()
+  }, [])
 
   return (
     <AppShell
