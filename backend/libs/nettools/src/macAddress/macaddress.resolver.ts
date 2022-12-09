@@ -4,6 +4,7 @@ import { PrismaService } from '../../../../src/database/prisma.service';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { PageInfo } from '../../../../src/utils/page-info';
+import {paginate} from "../../../../src/utils/paginate";
 
 @Resolver(() => MacAddress)
 export class MacAddressResolver {
@@ -28,10 +29,7 @@ export class MacAddressResolver {
       ],
     });
 
-    return {
-      data: macAddresses,
-      total: macAddresses.length,
-    };
+    return paginate(macAddresses);
   }
 
   @Query(() => [MacAddress])
