@@ -12,6 +12,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+  new FastifyAdapter({ logger: false });
 
   app.useLogger(SentryService.SentryServiceInstance());
   await app.listen(3000);

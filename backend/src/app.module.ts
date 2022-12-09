@@ -13,6 +13,8 @@ import {
   TokenValidation,
 } from 'nest-keycloak-connect';
 import { APP_GUARD } from '@nestjs/core';
+import { AppService } from './app.service';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -56,6 +58,7 @@ import { APP_GUARD } from '@nestjs/core';
         environment:
           process.env.NODE_ENV === 'production' ? 'production' : 'dev',
         release: null,
+        logLevels: ['debug'],
         close: { enabled: true },
       }),
       inject: [ConfigService],
@@ -64,6 +67,7 @@ import { APP_GUARD } from '@nestjs/core';
     NetamModule,
     NettoolsModule,
   ],
+  controllers: [AppController],
   providers: [
     {
       provide: APP_GUARD,
