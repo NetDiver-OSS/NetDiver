@@ -18,3 +18,7 @@ export function Paginated<T>(classRef: Type<T>): Type<IPaginatedType<T>> {
 
   return PaginatedType as Type<IPaginatedType<T>>;
 }
+
+export async function paginate<T>(data: T[]): Promise<IPaginatedType<T>> {
+  return { data, total: data.length };
+}
