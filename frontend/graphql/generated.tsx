@@ -82,13 +82,24 @@ export type OuiSync = {
   result: Scalars['Boolean'];
 };
 
+export type PageInfo = {
+  cursor?: InputMaybe<Scalars['String']>;
+  size?: InputMaybe<Scalars['Float']>;
+};
+
+export type PaginatedMacAddress = {
+  __typename?: 'PaginatedMacAddress';
+  data?: Maybe<Array<MacAddress>>;
+  total?: Maybe<Scalars['Float']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   createVlan: Vlan;
   deleteVlan: Vlan;
   getDnsResolution: NetDnsResolver;
   getMacAddress: Array<MacAddress>;
-  getMacAddressesAndVendors: Array<MacAddress>;
+  getMacAddressesAndVendors: PaginatedMacAddress;
   getNetRange: NetCalculator;
   getNetRangeNext: NetCalculator;
   getNetRangePrevious: NetCalculator;
@@ -132,6 +143,11 @@ export type QueryGetDnsResolutionArgs = {
 
 export type QueryGetMacAddressArgs = {
   macprefix: Scalars['String'];
+};
+
+
+export type QueryGetMacAddressesAndVendorsArgs = {
+  page: PageInfo;
 };
 
 
@@ -271,10 +287,12 @@ export type Vlan = {
   vlanId: Scalars['Int'];
 };
 
-export type GetMacAddressesAndVendorsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetMacAddressesAndVendorsQueryVariables = Exact<{
+  page: PageInfo;
+}>;
 
 
-export type GetMacAddressesAndVendorsQuery = { __typename?: 'Query', getMacAddressesAndVendors: Array<{ __typename?: 'MacAddress', id: number, mac: string, vendor?: string | null }> };
+export type GetMacAddressesAndVendorsQuery = { __typename?: 'Query', getMacAddressesAndVendors: { __typename?: 'PaginatedMacAddress', data?: Array<{ __typename?: 'MacAddress', id: number, mac: string, vendor?: string | null }> | null } };
 
 export type GetMacAddressQueryVariables = Exact<{
   macPrefix: Scalars['String'];
@@ -319,13 +337,23 @@ export type GetNetRangeSplitQueryVariables = Exact<{
 
 export type GetNetRangeSplitQuery = { __typename?: 'Query', getNetRangeSplit: { __typename?: 'NetCalculator', splited?: Array<string> | null } };
 
+export type GetDnsResolutionQueryVariables = Exact<{
+  request: Scalars['String'];
+  type: Scalars['String'];
+}>;
+
+
+export type GetDnsResolutionQuery = { __typename?: 'Query', getDnsResolution: { __typename?: 'NetDnsResolver', a?: Array<string> | null, aaaa?: Array<string> | null, cname?: Array<string> | null, ns?: Array<string> | null, ptr?: Array<string> | null, txt?: Array<Array<string>> | null, caa?: Array<{ __typename?: 'CaaType', critical: number, issue?: string | null, issuewild?: string | null, iodef?: string | null, contactemail?: string | null, contactphone?: string | null }> | null, mx?: Array<{ __typename?: 'MxType', priority: number, exchange: string }> | null, naptr?: Array<{ __typename?: 'NaptrType', flags: string, service: string, regexp: string, replacement: string, order: number, preference: number }> | null, soa?: { __typename?: 'SoaType', nsname: string, hostmaster: string, serial: number, refresh: number, retry: number, expire: number, minttl: number } | null, srv?: Array<{ __typename?: 'SrvType', priority: number, weight: number, port: number, name: string }> | null } };
+
 
 export const GetMacAddressesAndVendorsDocument = gql`
-    query GetMacAddressesAndVendors {
-  getMacAddressesAndVendors {
-    id
-    mac
-    vendor
+    query GetMacAddressesAndVendors($page: PageInfo!) {
+  getMacAddressesAndVendors(page: $page) {
+    data {
+      id
+      mac
+      vendor
+    }
   }
 }
     `;
@@ -342,10 +370,11 @@ export const GetMacAddressesAndVendorsDocument = gql`
  * @example
  * const { data, loading, error } = useGetMacAddressesAndVendorsQuery({
  *   variables: {
+ *      page: // value for 'page'
  *   },
  * });
  */
-export function useGetMacAddressesAndVendorsQuery(baseOptions?: Apollo.QueryHookOptions<GetMacAddressesAndVendorsQuery, GetMacAddressesAndVendorsQueryVariables>) {
+export function useGetMacAddressesAndVendorsQuery(baseOptions: Apollo.QueryHookOptions<GetMacAddressesAndVendorsQuery, GetMacAddressesAndVendorsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetMacAddressesAndVendorsQuery, GetMacAddressesAndVendorsQueryVariables>(GetMacAddressesAndVendorsDocument, options);
       }
@@ -592,3 +621,79 @@ export function useGetNetRangeSplitLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetNetRangeSplitQueryHookResult = ReturnType<typeof useGetNetRangeSplitQuery>;
 export type GetNetRangeSplitLazyQueryHookResult = ReturnType<typeof useGetNetRangeSplitLazyQuery>;
 export type GetNetRangeSplitQueryResult = Apollo.QueryResult<GetNetRangeSplitQuery, GetNetRangeSplitQueryVariables>;
+export const GetDnsResolutionDocument = gql`
+    query GetDnsResolution($request: String!, $type: String!) {
+  getDnsResolution(request: $request, type: $type) {
+    a
+    aaaa
+    caa {
+      critical
+      issue
+      issuewild
+      iodef
+      contactemail
+      contactphone
+    }
+    cname
+    mx {
+      priority
+      exchange
+    }
+    naptr {
+      flags
+      service
+      regexp
+      replacement
+      order
+      preference
+    }
+    ns
+    ptr
+    soa {
+      nsname
+      hostmaster
+      serial
+      refresh
+      retry
+      expire
+      minttl
+    }
+    srv {
+      priority
+      weight
+      port
+      name
+    }
+    txt
+  }
+}
+    `;
+
+/**
+ * __useGetDnsResolutionQuery__
+ *
+ * To run a query within a React component, call `useGetDnsResolutionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDnsResolutionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDnsResolutionQuery({
+ *   variables: {
+ *      request: // value for 'request'
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useGetDnsResolutionQuery(baseOptions: Apollo.QueryHookOptions<GetDnsResolutionQuery, GetDnsResolutionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetDnsResolutionQuery, GetDnsResolutionQueryVariables>(GetDnsResolutionDocument, options);
+      }
+export function useGetDnsResolutionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDnsResolutionQuery, GetDnsResolutionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetDnsResolutionQuery, GetDnsResolutionQueryVariables>(GetDnsResolutionDocument, options);
+        }
+export type GetDnsResolutionQueryHookResult = ReturnType<typeof useGetDnsResolutionQuery>;
+export type GetDnsResolutionLazyQueryHookResult = ReturnType<typeof useGetDnsResolutionLazyQuery>;
+export type GetDnsResolutionQueryResult = Apollo.QueryResult<GetDnsResolutionQuery, GetDnsResolutionQueryVariables>;
