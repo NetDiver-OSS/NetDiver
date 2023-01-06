@@ -4,7 +4,7 @@ import { PrismaService } from '../../../../src/database/prisma.service';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { PageInfo } from '../../../../src/utils/page-info';
-import {paginate} from "../../../../src/utils/paginate";
+import { paginate } from '../../../../src/utils/paginate';
 
 @Resolver(() => MacAddress)
 export class MacAddressResolver {
@@ -18,7 +18,7 @@ export class MacAddressResolver {
 
     const macAddresses = await this.prismaService.macAddresses.findMany({
       take: size,
-      cursor: { id: Number(cursor) },
+      cursor: cursor !== undefined ? { id: Number(cursor) } : undefined,
       orderBy: [
         {
           mac: 'asc',
