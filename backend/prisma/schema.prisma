@@ -1,25 +1,27 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  url      = env("DATABASE_URL")
-  provider = "postgresql"
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [uuidOssp(map: "uuid-ossp"), pgcrypto]
 }
 
 // NetTools Tables
 model MacAddresses {
-  id     Int     @id @default(autoincrement())
+  id     String  @id @default(uuid())
   mac    String  @unique
   vendor String?
 
-  @@index([mac,vendor])
+  @@index([mac, vendor])
   @@map(name: "nettools_macaddresses")
 }
 
 // NetAM Tables
 model Sections {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   createdAt   DateTime @default(now()) @map("created_at")
   name        String   @unique
   description String?
@@ -28,24 +30,24 @@ model Sections {
   scantype    String   @default("ping") @db.VarChar(255)
   usages      Usages[]
   vlan        Vlans    @relation(fields: vlanId, references: id)
-  vlanId      Int      @map("vlan_id")
+  vlanId      String   @map("vlan_id")
 
   @@index([name])
   @@map(name: "netam_sections")
 }
 
 model Usages {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   createdAt   DateTime @default(now()) @map("created_at")
   ipUsed      String   @map("ip_used") @db.VarChar(255)
   section     Sections @relation(fields: sectionId, references: id)
-  sectionId   Int      @map("section_id")
+  sectionId   String   @map("section_id")
   fqdn        String   @db.VarChar(255)
   description String?  @db.Text
   identifier  String   @unique @db.VarChar(255)
   status      States   @default(ACTIVE)
-  device      Devices?  @relation(fields: deviceId, references: id)
-  deviceId    Int?      @map("device_id")
+  device      Devices? @relation(fields: deviceId, references: id)
+  deviceId    String?  @map("device_id")
 
   @@index([ipUsed])
   @@index([fqdn])
@@ -61,24 +63,24 @@ enum States {
 }
 
 model Vlans {
-  id          Int        @id @default(autoincrement())
+  id          String     @id @default(uuid())
   createdAt   DateTime   @default(now()) @map("created_at")
   name        String     @db.VarChar(255)
   description String?    @db.Text
-  vlanId      Int         @unique @map("vlan_id")
+  vlanId      Int        @unique @map("vlan_id")
   sections    Sections[]
 
   @@map(name: "netam_vlans")
 }
 
 model Devices {
-  id              Int               @id @default(autoincrement())
+  id              String            @id @default(uuid())
   createdAt       DateTime          @default(now()) @map("created_at")
   name            String            @db.VarChar(255)
   rackHeight      Int?              @map("rack_height")
   depthType       Int               @default(1) @map("depth_type")
   deviceType      DevicesTypes?     @relation(fields: deviceTypeId, references: id)
-  deviceTypeId    Int?              @map("device_type_id")
+  deviceTypeId    String?           @map("device_type_id")
   usages          Usages[]
   rackOccupations RackOccupations[]
 
@@ -86,7 +88,7 @@ model Devices {
 }
 
 model DevicesTypes {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(uuid())
   createdAt DateTime  @default(now()) @map("created_at")
   name      String    @unique
   color     String    @default("FFFFFF")
@@ -96,7 +98,7 @@ model DevicesTypes {
 }
 
 model RackSpaces {
-  id              Int               @id @default(autoincrement())
+  id              String            @id @default(uuid())
   createdAt       DateTime          @default(now()) @map("created_at")
   name            String
   unitHeight      Int               @map("unit_height")
@@ -107,13 +109,29 @@ model RackSpaces {
 }
 
 model RackOccupations {
-  id          Int        @id @default(autoincrement())
+  id          String     @id @default(uuid())
   createdAt   DateTime   @default(now()) @map("created_at")
   rackAnchor  Int        @map("rack_anchor")
   rackspace   RackSpaces @relation(fields: rackspaceId, references: id)
-  rackspaceId Int        @map("rackspace_id")
+  rackspaceId String     @map("rackspace_id")
   device      Devices    @relation(fields: deviceId, references: id)
-  deviceId    Int        @map("device_id")
+  deviceId    String     @map("device_id")
 
   @@map(name: "netam_rackoccupations")
+}
+
+enum IAMAccessLevel {
+  READ_ONLY
+  READ_WRITE
+  OWNER
+}
+
+model IAM {
+  id          String         @id @default(uuid())
+  plugin      String
+  module      String
+  targetId    String         @map("target_id")
+  accessLevel IAMAccessLevel @map("access_level")
+
+  @@map(name: "netdiver_iam")
 }
