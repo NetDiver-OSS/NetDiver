@@ -8,11 +8,13 @@ import {
 } from '@nestjs/graphql';
 import { Vlan } from './vlan.model';
 import { PrismaService } from '../../../../src/database/prisma.service';
+import { Iam } from '../../../../src/decorators/iam.decorator';
 
 @Resolver(() => Vlan)
 export class VlanResolver {
   constructor(private readonly prismaService: PrismaService) {}
 
+  @Iam('netam', 'vlan', 'READ_ONLY')
   @Query(() => [Vlan])
   async getVlans(): Promise<Vlan[]> {
     return this.prismaService.vlans.findMany({
@@ -20,6 +22,7 @@ export class VlanResolver {
     });
   }
 
+  @Iam('netam', 'vlan', 'READ_ONLY')
   @Query(() => Vlan)
   async getVlanId(
     @Args('vlanId', { type: () => Int }) vlanId: number,
@@ -30,6 +33,7 @@ export class VlanResolver {
     });
   }
 
+  @Iam('netam', 'vlan', 'READ_ONLY')
   @Query(() => [Vlan])
   async getVlanName(@Args('name') name: string): Promise<Vlan[]> {
     return this.prismaService.vlans.findMany({
@@ -42,6 +46,7 @@ export class VlanResolver {
     });
   }
 
+  @Iam('netam', 'vlan', 'READ_WRITE')
   @Query(() => Vlan)
   async createVlan(
     @Args('name') name: string,
@@ -58,6 +63,7 @@ export class VlanResolver {
     return this.getVlanId(vlanId);
   }
 
+  @Iam('netam', 'vlan', 'OWNER')
   @Query(() => Vlan)
   async deleteVlan(@Args('id', { type: () => Int }) id: number): Promise<Vlan> {
     const vlan: Vlan = await this.prismaService.vlans.findFirst({
@@ -71,6 +77,7 @@ export class VlanResolver {
     return vlan;
   }
 
+  @Iam('netam', 'vlan', 'READ_WRITE')
   @Query(() => Vlan)
   async updateVlan(
     @Args('id', { type: () => Int }) id: number,

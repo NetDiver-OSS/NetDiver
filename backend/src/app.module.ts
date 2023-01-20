@@ -13,6 +13,9 @@ import {
   TokenValidation,
 } from 'nest-keycloak-connect';
 import { APP_GUARD } from '@nestjs/core';
+import { IamModule } from './iam/iam.module';
+import { IamGuard } from './guards/iam.guard';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -60,6 +63,9 @@ import { APP_GUARD } from '@nestjs/core';
       }),
       inject: [ConfigService],
     }),
+    // Core modules
+    DatabaseModule,
+    IamModule,
     // NetDiver modules
     NetamModule,
     NettoolsModule,
@@ -68,6 +74,10 @@ import { APP_GUARD } from '@nestjs/core';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: IamGuard,
     },
   ],
 })

@@ -1,11 +1,13 @@
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { Section } from '@netdiver/netam/section/section.model';
 import { PrismaService } from '../../../../src/database/prisma.service';
+import { Iam } from '../../../../src/decorators/iam.decorator';
 
 @Resolver(() => Section)
 export class SectionResolver {
   constructor(private readonly prismaService: PrismaService) {}
 
+  @Iam('netam', 'section', 'READ_ONLY')
   @Query(() => [Section])
   async getSections(): Promise<Section[]> {
     return this.prismaService.sections.findMany({
@@ -16,6 +18,7 @@ export class SectionResolver {
     });
   }
 
+  @Iam('netam', 'section', 'READ_ONLY')
   @Query(() => Section)
   async getSectionId(
     @Args('id', { type: () => Int }) id: number,
@@ -27,6 +30,7 @@ export class SectionResolver {
     });
   }
 
+  @Iam('netam', 'section', 'READ_ONLY')
   @Query(() => [Section])
   async getSectionName(@Args('name') name: string): Promise<Section[]> {
     return this.prismaService.sections.findMany({
@@ -40,6 +44,7 @@ export class SectionResolver {
     });
   }
 
+  @Iam('netam', 'section', 'READ_ONLY')
   @Query(() => [Section])
   async getSectionNetwork(
     @Args('network') network: string,
@@ -55,6 +60,7 @@ export class SectionResolver {
     });
   }
 
+  @Iam('netam', 'section', 'READ_ONLY')
   @Query(() => [Section])
   async getSectionScanType(
     @Args('scantype') scantype: string,
@@ -70,6 +76,7 @@ export class SectionResolver {
     });
   }
 
+  @Iam('netam', 'section', 'READ_ONLY')
   @Query(() => [Section])
   async getSectionByVlanName(@Args('vlan') vlan: string): Promise<Section[]> {
     return this.prismaService.sections.findMany({

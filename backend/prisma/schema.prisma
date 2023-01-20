@@ -128,8 +128,8 @@ enum IAMAccessLevel {
 
 model IAM {
   id          String         @id @default(uuid())
-  plugin      String
-  module      String
+  plugin      String // nettools, netam, netdiver
+  module      String // macaddresses, sections, usages, devices, devicestypes, rackspaces, rackoccupations
   targetId    String         @map("target_id")
   accessLevel IAMAccessLevel @map("access_level")
 
