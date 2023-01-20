@@ -1,11 +1,13 @@
 import { gql } from '@apollo/client'
 
 export const GET_MAC_ADDRESS_AND_VENDORS = gql`
-    query GetMacAddressesAndVendors {
-        getMacAddressesAndVendors {
-            id
-            mac
-            vendor
+    query GetMacAddressesAndVendors($page: PageInfo!) {
+        getMacAddressesAndVendors(page: $page) {
+            data {
+                id
+                mac
+                vendor
+            }
         }
     }
 `
