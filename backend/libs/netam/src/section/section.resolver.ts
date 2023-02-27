@@ -1,6 +1,7 @@
-import { Args, Int, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Section } from '@netdiver/netam/section/section.model';
 import { PrismaService } from '../../../../src/database/prisma.service';
+import { SectionInput } from './section.model';
 
 @Resolver(() => Section)
 export class SectionResolver {
@@ -27,9 +28,9 @@ export class SectionResolver {
     });
   }
 
-  @Query(() => [Section])
-  async getSectionName(@Args('name') name: string): Promise<Section[]> {
-    return this.prismaService.sections.findMany({
+  @Query(() => Section)
+  async getSectionName(@Args('name') name: string): Promise<Section> {
+    return this.prismaService.sections.findFirst({
       orderBy: [{ name: 'asc' }],
       where: {
         name: {
@@ -81,5 +82,30 @@ export class SectionResolver {
       },
       include: { vlan: true },
     });
+  }
+
+  @Mutation(() => Section)
+  async createSection(
+    @Args('section') section: SectionInput,
+  ): Promise<Section> {
+    const vlan = await this.prismaService.vlans.findUnique({
+      select: {
+        id: true,
+      },
+      where: {
+        vlanId: section.vlanId,
+      },
+    });
+    await this.prismaService.sections.create({
+      data: {
+        name: section.name,
+        description: section.description,
+        scantype: section.scantype,
+        network: section.network,
+        schedule: section.schedule,
+        vlanId: vlan.id,
+      },
+    });
+    return this.getSectionName(section.name);
   }
 }
