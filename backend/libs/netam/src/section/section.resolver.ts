@@ -1,7 +1,7 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Section } from '@netdiver/netam/section/section.model';
 import { PrismaService } from '../../../../src/database/prisma.service';
-import { SectionInput } from './section.model';
+import { SectionInputCreation } from './section.model';
 
 @Resolver(() => Section)
 export class SectionResolver {
@@ -86,7 +86,7 @@ export class SectionResolver {
 
   @Mutation(() => Section)
   async createSection(
-    @Args('section') section: SectionInput,
+    @Args('section') section: SectionInputCreation,
   ): Promise<Section> {
     const vlan = await this.prismaService.vlans.findUnique({
       select: {
@@ -107,5 +107,41 @@ export class SectionResolver {
       },
     });
     return this.getSectionName(section.name);
+  }
+
+  @Mutation(() => Section)
+  async updateSection(
+    @Args('id', { type: () => Int }) id: number,
+    @Args('name', { nullable: true }) name?: string,
+    @Args('description', { nullable: true }) description?: string,
+    @Args('network', { nullable: true }) network?: string,
+    @Args('scantype', { nullable: true }) scantype?: string,
+    @Args('schedule', { nullable: true }) schedule?: string,
+    @Args('vlanId', { type: () => Int, nullable: true }) vlanId?: number,
+  ): Promise<Section> {
+    const sectionData: Partial<SectionInputCreation> = {};
+
+    if (name) sectionData.name = name;
+    if (description) sectionData.description = description;
+    if (network) sectionData.network = network;
+    if (scantype) sectionData.scantype = scantype;
+    if (schedule) sectionData.schedule = schedule;
+
+    if (vlanId) {
+      const vlan = await this.prismaService.vlans.findUnique({
+        select: {
+          id: true,
+        },
+        where: {
+          vlanId: vlanId,
+        },
+      });
+      sectionData.vlanId = vlan.id;
+    }
+    await this.prismaService.sections.update({
+      where: { id: id },
+      data: sectionData,
+    });
+    return this.getSectionName(name);
   }
 }

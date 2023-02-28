@@ -33,7 +33,7 @@ export class Section {
 }
 
 @InputType()
-export class SectionInput {
+export class SectionInputCreation {
   @Field()
   name: string;
 
