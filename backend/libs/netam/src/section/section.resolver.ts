@@ -144,4 +144,22 @@ export class SectionResolver {
     });
     return this.getSectionName(name);
   }
+
+  @Mutation(() => Section)
+  async deleteSection(
+    @Args('id', { type: () => Int }) id: number,
+  ): Promise<Section> {
+    const deletedSection = await this.getSectionId(id);
+    await this.prismaService.usages.deleteMany({
+      where: {
+        sectionId: id,
+      },
+    });
+    await this.prismaService.sections.delete({
+      where: {
+        id: id,
+      },
+    });
+    return deletedSection;
+  }
 }
