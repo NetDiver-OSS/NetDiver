@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { Vlan } from '@netdiver/netam/vlan/vlan.model';
 import { Usage } from '../usage/usage.model';
 
@@ -30,4 +30,25 @@ export class Section {
 
   @Field()
   createdAt: Date;
+}
+
+@InputType()
+export class SectionInputCreation {
+  @Field()
+  name: string;
+
+  @Field({ nullable: true })
+  description?: string;
+
+  @Field()
+  network: string;
+
+  @Field()
+  scantype: string;
+
+  @Field({ nullable: true })
+  schedule?: string;
+
+  @Field(() => Int)
+  vlanId: number;
 }

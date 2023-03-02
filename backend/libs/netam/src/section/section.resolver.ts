@@ -1,6 +1,7 @@
-import { Args, Int, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Section } from '@netdiver/netam/section/section.model';
 import { PrismaService } from '../../../../src/database/prisma.service';
+import { SectionInputCreation } from './section.model';
 
 @Resolver(() => Section)
 export class SectionResolver {
@@ -27,9 +28,9 @@ export class SectionResolver {
     });
   }
 
-  @Query(() => [Section])
-  async getSectionName(@Args('name') name: string): Promise<Section[]> {
-    return this.prismaService.sections.findMany({
+  @Query(() => Section)
+  async getSectionName(@Args('name') name: string): Promise<Section> {
+    return this.prismaService.sections.findFirst({
       orderBy: [{ name: 'asc' }],
       where: {
         name: {
@@ -81,5 +82,84 @@ export class SectionResolver {
       },
       include: { vlan: true },
     });
+  }
+
+  @Mutation(() => Section)
+  async createSection(
+    @Args('section') section: SectionInputCreation,
+  ): Promise<Section> {
+    const vlan = await this.prismaService.vlans.findUnique({
+      select: {
+        id: true,
+      },
+      where: {
+        vlanId: section.vlanId,
+      },
+    });
+    await this.prismaService.sections.create({
+      data: {
+        name: section.name,
+        description: section.description,
+        scantype: section.scantype,
+        network: section.network,
+        schedule: section.schedule,
+        vlanId: vlan.id,
+      },
+    });
+    return this.getSectionName(section.name);
+  }
+
+  @Mutation(() => Section)
+  async updateSection(
+    @Args('id', { type: () => Int }) id: number,
+    @Args('name', { nullable: true }) name?: string,
+    @Args('description', { nullable: true }) description?: string,
+    @Args('network', { nullable: true }) network?: string,
+    @Args('scantype', { nullable: true }) scantype?: string,
+    @Args('schedule', { nullable: true }) schedule?: string,
+    @Args('vlanId', { type: () => Int, nullable: true }) vlanId?: number,
+  ): Promise<Section> {
+    const sectionData: Partial<SectionInputCreation> = {};
+
+    if (name) sectionData.name = name;
+    if (description) sectionData.description = description;
+    if (network) sectionData.network = network;
+    if (scantype) sectionData.scantype = scantype;
+    if (schedule) sectionData.schedule = schedule;
+
+    if (vlanId) {
+      const vlan = await this.prismaService.vlans.findUnique({
+        select: {
+          id: true,
+        },
+        where: {
+          vlanId: vlanId,
+        },
+      });
+      sectionData.vlanId = vlan.id;
+    }
+    await this.prismaService.sections.update({
+      where: { id: id },
+      data: sectionData,
+    });
+    return this.getSectionName(name);
+  }
+
+  @Mutation(() => Section)
+  async deleteSection(
+    @Args('id', { type: () => Int }) id: number,
+  ): Promise<Section> {
+    const deletedSection = await this.getSectionId(id);
+    await this.prismaService.usages.deleteMany({
+      where: {
+        sectionId: id,
+      },
+    });
+    await this.prismaService.sections.delete({
+      where: {
+        id: id,
+      },
+    });
+    return deletedSection;
   }
 }
