@@ -1,7 +1,8 @@
-import { Args, Int, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PrismaService } from '../../../../src/database/prisma.service';
 import { Usage } from '@netdiver/netam/usage/usage.model';
 import { UsageState } from './usage.type';
+import { UsageInputCreation } from './usage.model';
 
 @Resolver(() => Usage)
 export class UsageResolver {
@@ -46,5 +47,31 @@ export class UsageResolver {
         },
       },
     });
+  }
+  @Query(() => Usage)
+  async getUsageIdentifier(
+    @Args('identifier') identifier: string,
+  ): Promise<Usage> {
+    return this.prismaService.usages.findFirst({
+      where: {
+        identifier: identifier,
+      },
+    });
+  }
+
+  @Mutation(() => Usage)
+  async createUsage(@Args('usage') usage: UsageInputCreation): Promise<Usage> {
+    const identifier = usage.ipUsed + '_' + usage.sectionId;
+    await this.prismaService.usages.create({
+      data: {
+        ipUsed: usage.ipUsed,
+        fqdn: usage.fqdn,
+        description: usage.description,
+        // status: usage.status in UsageState, //TODO : Add state management -> Enum
+        identifier: identifier,
+        sectionId: usage.sectionId,
+      },
+    });
+    return this.getUsageIdentifier(identifier);
   }
 }
