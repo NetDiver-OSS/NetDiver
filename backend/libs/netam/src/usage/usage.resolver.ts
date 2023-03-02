@@ -119,4 +119,17 @@ export class UsageResolver {
     });
     return this.getUsageId(id);
   }
+
+  @Mutation(() => Usage)
+  async deleteUsage(
+    @Args('id', { type: () => Int }) id: number,
+  ): Promise<Usage> {
+    const deletedUsage = await this.getUsageId(id);
+    await this.prismaService.usages.delete({
+      where: {
+        id: id,
+      },
+    });
+    return deletedUsage;
+  }
 }

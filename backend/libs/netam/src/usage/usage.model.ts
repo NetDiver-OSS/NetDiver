@@ -23,6 +23,9 @@ export class Usage {
 
   @Field()
   status: string;
+
+  @Field(() => Int)
+  sectionId: number;
 }
 
 @InputType()
@@ -42,4 +45,7 @@ export class UsageInputCreation {
 
   @Field(() => Int)
   sectionId: number;
+
+  @Field({ nullable: true })
+  identifier?: string;
 }
