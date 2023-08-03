@@ -29,7 +29,7 @@
     "@nestjs/axios": "^1.0.0",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.2.0",
-    "@nestjs/core": "^8.0.0",
+    "@nestjs/core": "^9.0.5",
     "@nestjs/graphql": "^10.0.20",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/platform-fastify": "^8.4.7",
